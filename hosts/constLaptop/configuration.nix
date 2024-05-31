@@ -7,6 +7,7 @@
     ../../core/user.nix
     ../../modules/locale.nix
     ../../modules/networking.nix
+    ../../modules/pipewire.nix
     ../../modules/xserver.nix
   ];
   
