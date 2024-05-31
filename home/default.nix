@@ -3,6 +3,7 @@
     home.homeDirectory = "/home/constexpr12";
     home.stateVersion = "23.11";
     imports = [
+      ./vim.nix
       ./git.nix
       ./chromium.nix
       ./packages.nix
