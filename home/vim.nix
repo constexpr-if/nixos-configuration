@@ -1,7 +1,9 @@
 { pkgs, ... }: {
   programs.vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [];
+    plugins = with pkgs.vimPlugins; [
+      Coqtail
+    ];
     extraConfig = ''
       set number
       set numberwidth=6
