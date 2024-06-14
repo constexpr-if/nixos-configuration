@@ -10,6 +10,7 @@
     ../../modules/locale.nix
     ../../modules/networking.nix
     ../../modules/pipewire.nix
+    ../../modules/virt.nix
     ../../modules/xserver.nix
   ];
   
