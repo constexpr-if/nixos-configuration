@@ -1,9 +1,10 @@
 {
-  services.xserver = {
-    enable = true;
+  services = {
     displayManager.sddm.enable = true;
-    desktopManager.plasma5.enable = true;
-    layout = "us";
-    xkbVariant = "";
+    xserver = {
+      enable = true;
+      desktopManager.plasma5.enable = true;
+      xkb.layout = "us";
+    };
   };
 }

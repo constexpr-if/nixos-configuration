@@ -9,6 +9,6 @@
       "wheel"
     ];
   };
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "constexpr12";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "constexpr12";
 }
