@@ -6,8 +6,8 @@
       Coqtail
     ];
     extraConfig = ''
-      set number
-      set numberwidth=6
+      set number relativenumber numberwidth=6
+      set nowrap
       colorscheme slate
       if has("syntax")
         syntax on
