@@ -7,9 +7,9 @@ in {
   home.packages = with pkgs; [
     discord
     gparted
+    ghidra
     maestral-gui
     obs-studio
-    #obsidian
     telegram-desktop
     ventoy-full
     vlc
