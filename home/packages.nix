@@ -16,5 +16,6 @@ in {
     wget
     wineWowPackages.waylandFull
     joern
+    zed-editor
   ];
 }
