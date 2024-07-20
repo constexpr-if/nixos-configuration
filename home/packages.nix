@@ -11,6 +11,7 @@ in {
     maestral-gui
     obs-studio
     telegram-desktop
+    tetrio-desktop
     ventoy-full
     vlc
     wget
