@@ -18,7 +18,6 @@
           home-manager.useUserPackages = true;
           home-manager.users.constexpr12 = import ./home;
         }
-        ./programs/steam.nix
       ];
     };
 

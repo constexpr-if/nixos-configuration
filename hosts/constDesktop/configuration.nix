@@ -12,6 +12,7 @@
     ../../modules/pipewire.nix
     ../../modules/virt.nix
     ../../modules/xserver.nix
+    ../../programs/steam.nix
   ];
   
   networking.hostName = "constDesktop";
