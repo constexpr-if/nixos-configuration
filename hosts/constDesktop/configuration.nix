@@ -13,6 +13,7 @@
     ../../modules/virt.nix
     ../../modules/xserver.nix
     ../../programs/steam.nix
+    ../../programs/zsh.nix
   ];
   
   networking.hostName = "constDesktop";

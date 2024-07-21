@@ -9,6 +9,7 @@
     ./programs/chromium.nix
     ./programs/git.nix
     ./programs/vim.nix
+    ./programs/zsh.nix
   ];
   programs.home-manager.enable = true;
 }

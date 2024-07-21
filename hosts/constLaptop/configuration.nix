@@ -10,6 +10,7 @@
     ../../modules/networking.nix
     ../../modules/pipewire.nix
     ../../modules/xserver.nix
+    ../../programs/zsh.nix
   ];
   
   networking.hostName = "constLaptop";

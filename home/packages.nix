@@ -9,6 +9,7 @@ in {
     gparted
     ghidra
     maestral-gui
+    (nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; })
     obs-studio
     telegram-desktop
     tetrio-desktop
