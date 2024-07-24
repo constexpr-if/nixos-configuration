@@ -5,9 +5,12 @@
   }) {};
 in {
   home.packages = with pkgs; [
+    burpsuite
     discord
-    gparted
+    gdb
     ghidra
+    gparted
+    joern
     maestral-gui
     (nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; })
     obs-studio
@@ -17,7 +20,7 @@ in {
     vlc
     wget
     wineWowPackages.waylandFull
-    joern
+    wireshark
     zed-editor
   ];
 }
