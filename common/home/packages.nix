@@ -11,6 +11,7 @@ in {
     ghidra
     gparted
     joern
+    kitty
     maestral-gui
     (nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; })
     obs-studio
