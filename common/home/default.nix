@@ -1,7 +1,6 @@
 {
   home.username = "constexpr12";
   home.homeDirectory = "/home/constexpr12";
-  home.stateVersion = "23.11";
   imports = [
     ./boot.nix
     ./packages.nix

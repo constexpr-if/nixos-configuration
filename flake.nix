@@ -12,11 +12,12 @@
       mkHost = system: hostname: nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
+          ./common/configuration.nix
           ./hosts/${hostname}/configuration.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.constexpr12 = import ./home;
+            home-manager.users.constexpr12 = import ./hosts/${hostname}/home;
           }
         ];
       };

@@ -1,19 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
   imports = [
     ./hardware-configuration.nix
-    ../../core/system.nix
-    ../../core/user.nix
-    ../../modules/bluetooth.nix
-    ../../modules/locale.nix
-    ../../modules/networking.nix
-    ../../modules/pipewire.nix
-    ../../modules/xserver.nix
-    ../../programs/zsh.nix
+    ../../common/modules/bluetooth.nix
   ];
-  
-  networking.hostName = "constLaptop";
-  nixpkgs.config.allowUnfree = true;
-}
 
+  networking.hostName = "constLaptop";
+  system.stateVersion = "23.11";
+}
