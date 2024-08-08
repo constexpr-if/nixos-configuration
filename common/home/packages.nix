@@ -17,6 +17,7 @@ in {
     obs-studio
     telegram-desktop
     tetrio-desktop
+    tor-browser
     ventoy-full
     vlc
     wget
