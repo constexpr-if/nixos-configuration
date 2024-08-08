@@ -5,6 +5,9 @@
   }) {};
 in {
   home.packages = with pkgs; [
+    asciinema
+    asciinema-agg
+    asciinema-scenario
     burpsuite
     discord
     gdb
