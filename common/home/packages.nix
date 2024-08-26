@@ -3,6 +3,7 @@
     url = "git@github.com:constexpr-if/Joern-Nix-Package.git";
     rev = "0dfe23b9b66c96bdc70064825f7347ba885866d3";
   }) {};
+  nerdfonts' = pkgs.nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; };
 in {
   home.packages = with pkgs; [
     asciinema
@@ -16,7 +17,7 @@ in {
     joern
     kitty
     maestral-gui
-    (nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; })
+    nerdfonts'
     obs-studio
     telegram-desktop
     tetrio-desktop
