@@ -23,7 +23,7 @@
       };
     in
     {
-      nixosConfigurations.constDesktop = mkHost "x86_64-linux" "constDesktop";
-      nixosConfigurations.constLaptop  = mkHost "x86_64-linux" "constLaptop";
+      nixosConfigurations.constDesktop   = mkHost "x86_64-linux" "constDesktop";
+      nixosConfigurations.constLaptopTUF = mkHost "x86_64-linux" "constLaptopTUF";
     };
 }
