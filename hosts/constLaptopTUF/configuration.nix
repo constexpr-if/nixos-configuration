@@ -5,6 +5,6 @@
     ../../common/modules/bluetooth.nix
   ];
 
-  networking.hostName = "constLaptop";
+  networking.hostName = "constLaptopTUF";
   system.stateVersion = "24.05";
 }
