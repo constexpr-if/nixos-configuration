@@ -3,7 +3,8 @@
     ./modules/locale.nix
     ./modules/networking.nix
     ./modules/pipewire.nix
-    ./modules/desktop-environment
+    ./modules/desktop-environment/hyprland.nix
+    ./modules/desktop-environment/kde-plasma.nix
     ./programs/zsh.nix
   ];
 
