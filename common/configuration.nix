@@ -22,6 +22,7 @@
     enable = true;
     user = "constexpr12";
   };
+  services.xserver.excludePackages = [ pkgs.xterm ];
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
