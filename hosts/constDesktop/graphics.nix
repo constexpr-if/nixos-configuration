@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
-  hardware.graphics = {
+  hardware.opengl = {
     enable = true;
-    enable32Bit = true;
+    driSupport32Bit = true;
   };
 
   hardware.nvidia = {
