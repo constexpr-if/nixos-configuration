@@ -22,6 +22,5 @@ in {
     wget
     wineWowPackages.waylandFull
     wireshark
-    zed-editor
   ];
 }
