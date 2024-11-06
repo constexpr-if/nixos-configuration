@@ -10,12 +10,15 @@ in {
     gdb
     ghidra
     gparted
+    halloy
     kitty
     maestral-gui
     nerdfonts'
     obs-studio
     telegram-desktop
     tetrio-desktop
+    tcpdump
+    tree
     ventoy-full
     vlc
     wget
