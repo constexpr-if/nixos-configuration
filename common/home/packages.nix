@@ -11,10 +11,12 @@ in {
     ghidra
     gparted
     halloy
+    iosevka
     kitty
     maestral-gui
     nerdfonts'
     obs-studio
+    spotify
     telegram-desktop
     tetrio-desktop
     tcpdump
