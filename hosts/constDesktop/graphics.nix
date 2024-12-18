@@ -1,12 +1,13 @@
 { config, lib, pkgs, ... }: {
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   hardware.nvidia = {
     modesetting.enable = true;
     nvidiaSettings = true;
+    open = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
