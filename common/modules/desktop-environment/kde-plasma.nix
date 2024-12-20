@@ -5,5 +5,5 @@
     wayland.enable = true;
   };
   services.desktopManager.plasma6.enable = true;
-  services.displayManager.defaultSession = "plasmawayland";
+  services.displayManager.defaultSession = "plasma";
 }
