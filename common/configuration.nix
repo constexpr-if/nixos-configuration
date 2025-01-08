@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   imports = [
+    ./modules/fonts
     ./modules/locale.nix
     ./modules/networking.nix
     ./modules/pipewire.nix

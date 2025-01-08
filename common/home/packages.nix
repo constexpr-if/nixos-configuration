@@ -1,12 +1,12 @@
-{ pkgs, ... }: let
-  nerdfonts' = pkgs.nerdfonts.override { fonts = [ "Meslo" "FiraCode" ]; };
-in {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     asciinema
     asciinema-agg
     asciinema-scenario
     burpsuite
     discord
+    font-manager
     gdb
     ghidra
     gparted
@@ -14,7 +14,6 @@ in {
     iosevka
     kitty
     maestral-gui
-    nerdfonts'
     obs-studio
     spotify
     telegram-desktop
