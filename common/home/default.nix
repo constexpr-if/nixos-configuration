@@ -7,7 +7,7 @@
     ./virt-manager.nix
     ./programs/chromium.nix
     ./programs/git.nix
-    ./programs/vim.nix
+    ./programs/neovim
     ./programs/vscode.nix
     ./programs/zsh.nix
   ];

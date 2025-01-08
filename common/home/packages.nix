@@ -13,7 +13,9 @@
     halloy
     iosevka
     kitty
+    lua-language-server
     maestral-gui
+    nixd
     obs-studio
     spotify
     telegram-desktop
