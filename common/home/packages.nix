@@ -17,6 +17,7 @@
     maestral-gui
     nixd
     obs-studio
+    rofi
     spotify
     telegram-desktop
     tetrio-desktop
