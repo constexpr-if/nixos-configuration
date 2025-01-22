@@ -17,16 +17,19 @@
     maestral-gui
     nixd
     obs-studio
+    ripgrep
     rofi
     spotify
     telegram-desktop
     tetrio-desktop
     tcpdump
     tree
+    tree-sitter
     ventoy-full
     vlc
     wget
     wineWowPackages.waylandFull
     wireshark
+    wl-clipboard-rs
   ];
 }
