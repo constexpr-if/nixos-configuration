@@ -6,6 +6,7 @@
     ./packages.nix
     ./virt-manager.nix
     ./programs/chromium.nix
+    ./programs/direnv.nix
     ./programs/git.nix
     ./programs/neovim
     ./programs/vscode.nix
