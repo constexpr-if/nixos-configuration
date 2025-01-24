@@ -6,6 +6,7 @@
     asciinema-scenario
     burpsuite
     discord
+    dropbox
     font-manager
     gdb
     ghidra
@@ -14,7 +15,6 @@
     iosevka
     kitty
     lua-language-server
-    maestral-gui
     nixd
     obs-studio
     ripgrep
