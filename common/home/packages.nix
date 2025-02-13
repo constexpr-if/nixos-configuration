@@ -4,6 +4,7 @@
     asciinema
     asciinema-agg
     asciinema-scenario
+    binutils
     burpsuite
     discord
     dropbox
@@ -12,6 +13,7 @@
     ghidra
     gparted
     halloy
+    ida-free
     iosevka
     kitty
     lua-language-server

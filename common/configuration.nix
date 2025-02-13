@@ -3,6 +3,7 @@
     ./modules/fonts
     ./modules/locale.nix
     ./modules/networking.nix
+    ./modules/nix-ld.nix
     ./modules/pipewire.nix
     ./modules/desktop-environment/hyprland.nix
     ./modules/desktop-environment/kde-plasma.nix
