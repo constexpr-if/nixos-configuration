@@ -1,9 +1,14 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   p10k = {
     name = "romkatv/powerlevel10k";
-    tags = [ as:theme depth:1 ];
+    tags = [
+      "as:theme"
+      "depth:1"
+    ];
   };
-in {
+in
+{
   programs = {
     zsh = {
       enable = true;
@@ -22,7 +27,7 @@ in {
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [];
+        plugins = [ ];
       };
     };
   };

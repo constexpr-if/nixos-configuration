@@ -7,23 +7,32 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ...}:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
     let
-      mkHost = system: hostname: nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./common/configuration.nix
-          ./hosts/${hostname}/configuration.nix
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.constexpr12 = import ./hosts/${hostname}/home;
-          }
-        ];
-      };
+      mkHost =
+        system: hostname:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./common/configuration.nix
+            ./hosts/${hostname}/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.constexpr12 = import ./hosts/${hostname}/home;
+            }
+          ];
+        };
     in
     {
-      nixosConfigurations.constDesktop   = mkHost "x86_64-linux" "constDesktop";
+      nixosConfigurations.constDesktop = mkHost "x86_64-linux" "constDesktop";
       nixosConfigurations.constLaptopTUF = mkHost "x86_64-linux" "constLaptopTUF";
     };
 }
