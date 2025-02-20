@@ -8,6 +8,7 @@
     ./modules/desktop-environment/hyprland.nix
     ./modules/desktop-environment/kde-plasma.nix
     ./programs/zsh.nix
+    ./syspkgs.nix
   ];
 
   users.users.constexpr12 = {
