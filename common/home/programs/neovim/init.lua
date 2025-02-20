@@ -22,6 +22,14 @@ local lspconfig = require("lspconfig")
 local cmp = require("cmp")
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+vim.g.haskell_tools = {
+	hls = {
+		settings = {
+			formattingProvider = "ormolu"
+		}
+	}
+}
+
 local hstools = require('haskell-tools')
 require("nvim-treesitter.configs").setup {
 	highlight = {
@@ -96,6 +104,9 @@ lspconfig.lua_ls.setup {
 			},
 		}
 	},
+}
+lspconfig.cmake.setup {
+	capabilities = capabilities,
 }
 
 
