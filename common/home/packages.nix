@@ -13,7 +13,6 @@
     ghidra
     gparted
     halloy
-    ida-free
     iosevka
     kitty
     lua-language-server
@@ -27,7 +26,6 @@
     tcpdump
     tree
     tree-sitter
-    ventoy-full
     vlc
     wget
     wineWowPackages.waylandFull

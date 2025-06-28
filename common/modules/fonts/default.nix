@@ -4,7 +4,7 @@ let
     set = "Custom";
     privateBuildPlan = builtins.readFile ./iosevka.toml;
   };
-  iosevka-nerdfonts = pkgs.nerdfonts.override { fonts = [ "Iosevka" ]; };
+  iosevka-nerdfonts = pkgs.nerd-fonts.iosevka;
 in
 {
   fonts.packages = [
