@@ -10,6 +10,7 @@
     ./modules/desktop-environment/kde-plasma.nix
     ./programs/zsh.nix
     ./syspkgs.nix
+    ./waydroid.nix
   ];
 
   users.users.constexpr12 = {
