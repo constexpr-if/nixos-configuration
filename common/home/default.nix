@@ -5,8 +5,8 @@
     ./boot.nix
     ./packages.nix
     ./virt-manager.nix
-    ./programs/chromium.nix
     ./programs/direnv.nix
+    ./programs/firefox.nix
     ./programs/git.nix
     ./programs/neovim
     ./programs/vscode.nix
