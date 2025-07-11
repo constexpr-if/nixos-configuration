@@ -10,5 +10,7 @@ in
   fonts.packages = [
     iosevka-custom
     iosevka-nerdfonts
+    pkgs.noto-fonts-cjk-sans
+    pkgs.pretendard
   ];
 }
