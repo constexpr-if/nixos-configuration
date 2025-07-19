@@ -15,7 +15,7 @@ in
       enableVteIntegration = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
-      initExtra = ''
+      initContent = ''
         source ~/.p10k.zsh
         alias ls="ls --color=auto"
       '';
