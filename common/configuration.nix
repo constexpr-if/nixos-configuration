@@ -8,6 +8,7 @@
     ./modules/pipewire.nix
     ./modules/desktop-environment/hyprland.nix
     ./modules/desktop-environment/kde-plasma.nix
+    ./modules/substituters.nix
     ./programs/zsh.nix
     ./syspkgs.nix
     ./waydroid.nix
