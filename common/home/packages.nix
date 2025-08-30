@@ -15,6 +15,7 @@
     halloy
     iosevka
     kitty
+    libreoffice-qt
     lua-language-server
     nixd
     obs-studio
