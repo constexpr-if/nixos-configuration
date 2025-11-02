@@ -24,6 +24,7 @@
     ];
     shell = pkgs.zsh;
   };
+  services.cloudflare-warp.enable = true;
 
   services.displayManager.autoLogin = {
     enable = true;

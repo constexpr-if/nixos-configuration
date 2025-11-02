@@ -6,6 +6,7 @@
     asciinema-scenario
     binutils
     burpsuite
+    deluge
     discord
     dropbox
     font-manager
@@ -14,6 +15,7 @@
     gparted
     halloy
     iosevka
+    jetbrains.idea-community-bin
     kitty
     libreoffice-qt
     lua-language-server
@@ -32,5 +34,6 @@
     wineWowPackages.waylandFull
     wireshark
     wl-clipboard-rs
+    zotero
   ];
 }
