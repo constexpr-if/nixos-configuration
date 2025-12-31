@@ -16,6 +16,7 @@
     halloy
     iosevka
     jetbrains.idea-community-bin
+    kdePackages.dolphin-plugins
     kitty
     libreoffice-qt
     lua-language-server
