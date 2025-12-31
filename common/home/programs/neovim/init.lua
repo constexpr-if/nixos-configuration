@@ -108,6 +108,15 @@ lspconfig.lua_ls.setup {
 lspconfig.cmake.setup {
 	capabilities = capabilities,
 }
+lspconfig.rust_analyzer.setup({
+	settings = {
+		['rust-analyzer'] = {
+			check = {
+				command = "clippy"
+			},
+		}
+	}
+})
 
 
 require('lualine').setup()
