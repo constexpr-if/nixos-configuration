@@ -15,7 +15,7 @@
     gparted
     halloy
     iosevka
-    jetbrains.idea-community-bin
+    jetbrains.idea-oss
     kdePackages.dolphin-plugins
     kitty
     libreoffice-qt
@@ -23,6 +23,8 @@
     nixd
     obs-studio
     ripgrep
+    rocmPackages.rocminfo
+    rocmPackages.rocm-smi
     rofi
     spotify
     telegram-desktop
