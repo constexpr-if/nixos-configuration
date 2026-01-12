@@ -6,15 +6,15 @@ vim.opt.mouse = ""
 vim.cmd("colorscheme kanagawa")
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp", { clear = true }),
-	callback = function(args)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = args.buf,
-			callback = function()
-				vim.lsp.buf.format { async = false, id = args.data.client_id }
-			end,
-		})
-	end
+  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+  callback = function(args)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format { async = false, id = args.data.client_id }
+      end,
+    })
+  end
 })
 
 local lspconfig = require("lspconfig")
@@ -22,90 +22,112 @@ local cmp = require("cmp")
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 vim.g.haskell_tools = {
-	hls = {
-		settings = {
-			formattingProvider = "ormolu"
-		}
-	}
+  hls = {
+    settings = {
+      formattingProvider = "ormolu"
+    }
+  }
 }
 
 local hstools = require('haskell-tools')
 require("nvim-treesitter.configs").setup {
-	highlight = {
-		enable = true,
-		disable = {},
-	},
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "gnn",
-			node_incremental = "grn",
-			scope_incremental = "grc",
-			node_decremental = "grm",
-		},
-	},
-	textobjects = {
-		select = {
-			enable = true,
-			lookahead = true,
-			keymaps = {
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
-			},
-		},
-	},
+  highlight = {
+    enable = true,
+    disable = {},
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
 }
 cmp.setup {
-	snippet = {
-		expand = function(args)
-			vim.fn["UltiSnips#Anon"](args.body)
-		end
-	},
-	mapping = {
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-n>'] = cmp.mapping.select_next_item(),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
-	},
-	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'ultisnips' },
-		{ name = 'buffer' },
-		{ name = 'path' },
-	},
+  snippet = {
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body)
+    end
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+    { name = 'buffer' },
+    { name = 'path' },
+  },
 }
+vim.lsp.enable("clangd")
 vim.lsp.config("clangd", {
-	capabilities = capabilities,
-	cmd = {
-		"clangd",
-		"--background-index",
-		"--suggest-missing-includes",
-		"--clang-tidy",
-		"--header-insertion=iwyu"
-	}
+  capabilities = capabilities,
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--suggest-missing-includes",
+    "--clang-tidy",
+    "--header-insertion=iwyu"
+  },
 })
+vim.filetype.add({
+  extension = {
+    hip = "cpp",
+  },
+})
+vim.lsp.enable("nixd")
 vim.lsp.config("nixd", {
-	capabilities = capabilities,
+  capabilities = capabilities,
 })
+vim.lsp.enable("ocamllsp")
 vim.lsp.config("ocamllsp", {
-	capabilities = capabilities,
+  capabilities = capabilities,
 })
+vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
-	capabilities = capabilities,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      format = {
+        enable = true,
+        defaultConfig = {
+          indent_style = "space",
+          indent_size = "2",
+        }
+      },
+    }
+  }
 })
+vim.lsp.enable("cmake")
 vim.lsp.config("cmake", {
-	capabilities = capabilities,
+  capabilities = capabilities,
 })
+vim.lsp.enable("rust_analyzer")
 vim.lsp.config("rust_analyzer", {
-	settings = {
-		['rust-analyzer'] = {
-			check = {
-				command = "clippy"
-			},
-		}
-	}
+  settings = {
+    ['rust-analyzer'] = {
+      check = {
+        command = "clippy"
+      },
+    }
+  }
 })
 
 
