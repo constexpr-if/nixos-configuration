@@ -18,7 +18,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 local lspconfig = require("lspconfig")
-
 local cmp = require("cmp")
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -77,7 +76,7 @@ cmp.setup {
 		{ name = 'path' },
 	},
 }
-lspconfig.clangd.setup {
+vim.lsp.config("clangd", {
 	capabilities = capabilities,
 	cmd = {
 		"clangd",
@@ -86,29 +85,20 @@ lspconfig.clangd.setup {
 		"--clang-tidy",
 		"--header-insertion=iwyu"
 	}
-}
-lspconfig.nixd.setup {
+})
+vim.lsp.config("nixd", {
 	capabilities = capabilities,
-}
-lspconfig.ocamllsp.setup {
+})
+vim.lsp.config("ocamllsp", {
 	capabilities = capabilities,
-}
-lspconfig.lua_ls.setup {
+})
+vim.lsp.config("lua_ls", {
 	capabilities = capabilities,
-	settings = {
-		Lua = {
-			format = {
-				enable = true,
-				indent_style = "space",
-				indent_size = "2",
-			},
-		}
-	},
-}
-lspconfig.cmake.setup {
+})
+vim.lsp.config("cmake", {
 	capabilities = capabilities,
-}
-lspconfig.rust_analyzer.setup({
+})
+vim.lsp.config("rust_analyzer", {
 	settings = {
 		['rust-analyzer'] = {
 			check = {
