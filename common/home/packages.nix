@@ -22,6 +22,7 @@
     lua-language-server
     nixd
     obs-studio
+    qemu_full
     ripgrep
     rocmPackages.rocminfo
     rocmPackages.rocm-smi
