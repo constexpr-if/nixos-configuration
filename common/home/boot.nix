@@ -1,3 +1,0 @@
-{
-  xsession.numlock.enable = true;
-}
