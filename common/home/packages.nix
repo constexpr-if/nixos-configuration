@@ -16,6 +16,7 @@
     halloy
     iosevka
     jetbrains.idea-oss
+    jetbrains.rust-rover
     kdePackages.dolphin-plugins
     kitty
     libreoffice-qt
