@@ -1,6 +1,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./keymap.nix
     ../../common/modules/bluetooth.nix
   ];
 
