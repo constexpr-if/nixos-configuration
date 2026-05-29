@@ -10,6 +10,8 @@
     ./programs/neovim
     ./programs/vscode.nix
     ./programs/zsh.nix
+    ./modules/mutagen.nix
+    ./mutagen/Projects.nix
   ];
   programs.home-manager.enable = true;
 }
