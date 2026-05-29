@@ -37,18 +37,6 @@ let
     '';
   };
   mutagen = "${mutagenWrapped}/bin/mutagen";
-  mkNullableOption =
-    type:
-    mkOption {
-      type = lib.types.nullOr type;
-      default = null;
-    };
-  mkListOption =
-    type:
-    mkOption {
-      type = lib.types.listOf type;
-      default = [ ];
-    };
   mutagen-types =
     let
       flag-types =
@@ -106,6 +94,18 @@ let
           ];
         };
       types = lib.types // flag-types;
+      mkNullableOption =
+        type:
+        mkOption {
+          type = lib.types.nullOr type;
+          default = null;
+        };
+      mkListOption =
+        type:
+        mkOption {
+          type = lib.types.listOf type;
+          default = [ ];
+        };
       sync-flags = {
         label = mkListOption types.str;
         paused = mkEnableOption "paused";
@@ -204,78 +204,67 @@ let
       };
     };
   types = lib.types // mutagen-types;
-  flagToArgs =
-    flags:
-    pipe flags [
-      (filterAttrs (_: v: v != null && v != false))
-      (mapAttrsToList (
-        k: v:
-        if builtins.isString v then
-          [ "--${k}=${v}" ]
-        else if builtins.isBool v then
-          [ "--${k}" ]
-        else if builtins.isList v then
-          map (x: "--${k}=${x}") v
-        else if builtins.isInt v then
-          [ "--${k}=${toString v}" ]
-        else
-          throw "Unsupported flag type for ${k}"
-      ))
-      flatten
-    ];
-  mkCommand = positional: flags: "${mutagen} ${escapeShellArgs (positional ++ flagToArgs flags)}";
-  mutagen-sync-create =
-    name:
-    {
-      alpha,
-      beta,
-      flags,
-    }:
-    mkCommand [
-      "sync"
-      "create"
-      alpha
-      beta
-      "--name=${name}"
-      "--label=home-manager"
-    ] flags;
-  mutagen-forward-create =
-    name:
-    {
-      source,
-      destination,
-      flags,
-    }:
-    mkCommand [
-      "forward"
-      "create"
-      source
-      destination
-      "--name=${name}"
-      "--label=home-manager"
-    ] flags;
-  activationScript =
+  mutagenCommands =
     let
-      init = ''
-        ${mutagen} sync terminate --label-selector=home-manager
-        ${mutagen} forward terminate --label-selector=home-manager
-      '';
-      syncCreate = pipe cfg.sync [
-        (mapAttrsToList mutagen-sync-create)
-        (concatStringsSep "\n")
-      ];
-      forwardCreate = pipe cfg.forward [
-        (mapAttrsToList mutagen-forward-create)
-        (concatStringsSep "\n")
-      ];
-      syncFlush = "${mutagen} sync flush --all";
+      flagToArgs =
+        flags:
+        pipe flags [
+          (filterAttrs (_: v: v != null && v != false))
+          (mapAttrsToList (
+            k: v:
+            if builtins.isString v then
+              [ "--${k}=${v}" ]
+            else if builtins.isBool v then
+              [ "--${k}" ]
+            else if builtins.isList v then
+              map (x: "--${k}=${x}") v
+            else if builtins.isInt v then
+              [ "--${k}=${toString v}" ]
+            else
+              throw "Unsupported flag type for ${k}"
+          ))
+          flatten
+        ];
+      mkCommand = positional: flags: "${mutagen} ${escapeShellArgs (positional ++ flagToArgs flags)}";
+      mutagen-sync-create =
+        name:
+        {
+          alpha,
+          beta,
+          flags,
+        }:
+        mkCommand [
+          "sync"
+          "create"
+          alpha
+          beta
+          "--name=${name}"
+          "--label=home-manager"
+        ] flags;
+      mutagen-forward-create =
+        name:
+        {
+          source,
+          destination,
+          flags,
+        }:
+        mkCommand [
+          "forward"
+          "create"
+          source
+          destination
+          "--name=${name}"
+          "--label=home-manager"
+        ] flags;
     in
-    concatStringsSep "\n" [
-      init
-      syncCreate
-      forwardCreate
-      syncFlush
-    ];
+    {
+      allTerminateList = [
+        "${mutagen} sync terminate --label-selector=home-manager"
+        "${mutagen} forward terminate --label-selector=home-manager"
+      ];
+      syncCreateList = mapAttrsToList mutagen-sync-create cfg.sync;
+      forwardCreateList = mapAttrsToList mutagen-forward-create cfg.forward;
+    };
 in
 {
   options.services.mutagen = {
@@ -297,6 +286,37 @@ in
     home.packages = [
       cfg.package
     ];
-    home.activation.mutagenActivationAction = entryAfter [ "writeBoundary" ] activationScript;
+    systemd.user.services = {
+      mutagen = {
+        Unit = {
+          Description = "Mutagen session";
+        };
+
+        Service = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStartPre =
+            with mutagenCommands;
+            flatten [
+              allTerminateList
+              syncCreateList
+              forwardCreateList
+            ];
+          ExecStart = [
+            "${mutagen} sync resume --label-selector=home-manager"
+            "${mutagen} forward resume --label-selector=home-manager"
+          ];
+          ExecStop = [
+            "${mutagen} sync pause --label-selector=home-manager"
+            "${mutagen} forward pause --label-selector=home-manager"
+          ];
+          Restart = "on-failure";
+        };
+
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
+      };
+    };
   };
 }
