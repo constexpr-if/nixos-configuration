@@ -14,6 +14,8 @@
     ../home/programs/neovim
     ../home/programs/vscode.nix
     ../home/programs/zsh.nix
+    ../home/modules/mutagen.nix
+    ../home/mutagen/Projects.nix
   ];
   programs.home-manager.enable = true;
 }
