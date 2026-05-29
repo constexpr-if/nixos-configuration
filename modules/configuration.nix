@@ -1,15 +1,15 @@
 { pkgs, ... }:
 {
   imports = [
-    ./modules/fonts
-    ./modules/locale.nix
-    ./modules/networking.nix
-    ./modules/nix-ld.nix
-    ./modules/pipewire.nix
-    ./modules/desktop-environment/hyprland.nix
-    ./modules/desktop-environment/kde-plasma.nix
-    ./modules/substituters.nix
-    ./programs/zsh.nix
+    ./fonts
+    ./locale.nix
+    ./networking.nix
+    ./nix-ld.nix
+    ./pipewire.nix
+    ./desktop-environment/hyprland.nix
+    ./desktop-environment/kde-plasma.nix
+    ./substituters.nix
+    ./zsh.nix
     ./syspkgs.nix
     ./waydroid.nix
   ];

@@ -21,6 +21,7 @@
     kitty
     libreoffice-qt
     lua-language-server
+    newsflash
     nixd
     obs-studio
     qemu_full

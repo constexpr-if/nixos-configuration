@@ -4,8 +4,8 @@
     ./filesystem.nix
     ./graphics.nix
     ./power.nix
-    ../../common/modules/virt.nix
-    ../../common/programs/steam.nix
+    ../modules/virt.nix
+    ../modules/steam.nix
   ];
 
   networking.hostName = "constDesktop";

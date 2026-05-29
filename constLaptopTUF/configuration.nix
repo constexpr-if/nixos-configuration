@@ -2,7 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ./keymap.nix
-    ../../common/modules/bluetooth.nix
+    ../modules/bluetooth.nix
   ];
 
   networking.hostName = "constLaptopTUF";
