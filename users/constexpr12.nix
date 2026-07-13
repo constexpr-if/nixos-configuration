@@ -1,9 +1,7 @@
-{ stateVersion }:
 {
   home = {
     username = "constexpr12";
     homeDirectory = "/home/constexpr12";
-    inherit stateVersion;
   };
   imports = [
     ../home/packages.nix
@@ -16,6 +14,7 @@
     ../home/programs/zsh.nix
     ../home/modules/mutagen.nix
     ../home/mutagen/Projects.nix
+    ../home/xdg.nix
   ];
   programs.home-manager.enable = true;
 }

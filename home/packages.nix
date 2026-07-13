@@ -37,7 +37,7 @@
     tree-sitter
     vlc
     wget
-    wineWowPackages.waylandFull
+    wineWow64Packages.waylandFull
     wireshark
     wl-clipboard-rs
     zotero

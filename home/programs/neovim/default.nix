@@ -21,6 +21,8 @@
       Coqtail
       haskell-tools-nvim
     ];
-    extraLuaConfig = builtins.readFile ./init.lua;
+    initLua = builtins.readFile ./init.lua;
+    withRuby = false;
+    withPython3 = false;
   };
 }

@@ -6,6 +6,7 @@
     ./power.nix
     ../modules/virt.nix
     ../modules/steam.nix
+    ../modules/bluetooth.nix
   ];
 
   networking.hostName = "constDesktop";
