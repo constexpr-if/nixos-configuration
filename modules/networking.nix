@@ -9,7 +9,6 @@
       enable = true;
       allowedTCPPorts = [ 25565 ];
     };
-    wireless.enable = false;
     networkmanager.enable = true;
   };
 }
