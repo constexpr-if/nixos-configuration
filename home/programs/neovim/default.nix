@@ -22,7 +22,7 @@
       haskell-tools-nvim
     ];
     initLua = builtins.readFile ./init.lua;
-    withRuby = false;
-    withPython3 = false;
+    withRuby = true;
+    withPython3 = true;
   };
 }
