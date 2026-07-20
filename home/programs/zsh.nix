@@ -25,10 +25,6 @@ in
           p10k
         ];
       };
-      oh-my-zsh = {
-        enable = true;
-        plugins = [ ];
-      };
     };
   };
 }
