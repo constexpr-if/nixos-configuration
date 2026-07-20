@@ -1,0 +1,9 @@
+{
+  haumea,
+  ...
+}:
+{
+  imports = [
+    (haumea ./configuration)
+  ];
+}

@@ -1,0 +1,43 @@
+{ pkgs, ... }: with pkgs;
+[
+  asciinema
+  asciinema-agg
+  asciinema-scenario
+  binutils
+  burpsuite
+  deluge
+  discord
+  dropbox
+  font-manager
+  gdb
+  ghidra
+  gparted
+  halloy
+  iosevka
+  jetbrains.idea-oss
+  jetbrains.rust-rover
+  kdePackages.dolphin-plugins
+  kitty
+  libreoffice-qt
+  lua-language-server
+  newsflash
+  nixd
+  obs-studio
+  qemu_full
+  ripgrep
+  rocmPackages.rocminfo
+  rocmPackages.rocm-smi
+  rofi
+  spotify
+  telegram-desktop
+  tetrio-desktop
+  tcpdump
+  tree
+  tree-sitter
+  vlc
+  wget
+  wineWow64Packages.waylandFull
+  wireshark
+  wl-clipboard-rs
+  zotero
+]
