@@ -39,4 +39,7 @@
   ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
+
+  home-manager.backupFileExtension = "backup";
+
 }
