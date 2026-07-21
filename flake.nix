@@ -24,7 +24,7 @@
           inherit src;
           inputs = args // {
             inherit haumea;
-          };t
+          };
         };
       nixosSystem =
         modules:
