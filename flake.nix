@@ -15,10 +15,8 @@
   };
 
   outputs =
-    { nixpkgs, ... }@flakes:
+    { nixpkgs, home-manager, ... }@flakes:
     let
-      inherit (nixpkgs.lib) nixosSystem;
-      inherit (flakes.home-manager.nixosModules) home-manager;
       haumea =
         src:
         { pkgs, ... }@args:
@@ -26,29 +24,22 @@
           inherit src;
           inputs = args // {
             inherit haumea;
-          };
+          };t
         };
+      nixosSystem =
+        modules:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit haumea; };
+          inherit modules;
+        };
+      common = [
+        home-manager.nixosModules.home-manager
+        (haumea ./configuration)
+      ];
     in
     {
-      nixosConfigurations.constDesktop = nixosSystem {
-        specialArgs = { inherit haumea; };
-        modules = [
-          home-manager
-          (haumea ./configuration)
-          ./hosts/constDesktop
-          { system.stateVersion = "23.11"; }
-        ];
-
-      };
-      nixosConfigurations.constLaptopTUF = nixosSystem {
-        specialArgs = { inherit haumea; };
-        modules = [
-          home-manager
-          (haumea ./configuration)
-          ./hosts/constLaptopTUF
-          { system.stateVersion = "24.05"; }
-        ];
-      };
+      nixosConfigurations.constDesktop = nixosSystem (common ++ [ ./hosts/constDesktop ]);
+      nixosConfigurations.constLaptopTUF = nixosSystem (common ++ [ ./hosts/constLaptopTUF ]);
     };
 
   nixConfig = {
