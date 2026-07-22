@@ -1,43 +1,84 @@
-{ pkgs, ... }: with pkgs;
+{ pkgs, ... }:
+with pkgs;
+let
+  pythonPackages = python314Packages;
+in
 [
   asciinema
   asciinema-agg
   asciinema-scenario
   binutils
+  blender
   burpsuite
+  cachix
+  cloudflared
+  comma
   deluge
   discord
-  dropbox
+  dnsmasq
+  dnsutils
+  easyeffects
+  entr
+  ethtool
+  eza
+  fastfetch
+  file
   font-manager
+  freecad
   gdb
+  gettext
   ghidra
+  gmsh
+  gnupg
   gparted
   halloy
+  inetutils
+  inotify-tools
   iosevka
   jetbrains.idea-oss
   jetbrains.rust-rover
+  jq
   kdePackages.dolphin-plugins
+  kdePackages.kdenlive
   kitty
+  krita
   libreoffice-qt
+  lsof
   lua-language-server
+  manix
+  net-tools
   newsflash
+  nix-output-monitor
   nixd
+  nixfmt
+  nmap
   obs-studio
+  parted
+  prismlauncher
+  python3
+  pythonPackages.httpserver
+  pythonPackages.uploadserver
   qemu_full
+  rar
+  reptyr
   ripgrep
-  rocmPackages.rocminfo
   rocmPackages.rocm-smi
+  rocmPackages.rocminfo
   rofi
   spotify
+  tcpdump
   telegram-desktop
   tetrio-desktop
-  tcpdump
+  tio
   tree
   tree-sitter
+  unrar-free
   vlc
+  watchexec
   wget
   wineWow64Packages.waylandFull
   wireshark
   wl-clipboard-rs
+  zellij
   zotero
 ]
