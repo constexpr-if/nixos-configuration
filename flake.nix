@@ -27,6 +27,7 @@
             hostconf
             home-manager.nixosModules.home-manager
             (libpp.haumea-module ./configuration)
+            ./property/wheel.nix
           ];
         };
     in
