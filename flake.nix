@@ -22,9 +22,7 @@
       nixosSystem =
         hostconf:
         lib.nixosSystem {
-          specialArgs = {
-            haumea = libpp.haumea-module;
-          };
+          specialArgs = { inherit libpp; };
           modules = [
             hostconf
             home-manager.nixosModules.home-manager

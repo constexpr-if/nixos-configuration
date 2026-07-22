@@ -1,7 +1,7 @@
-{ haumea, ... }:
+{ libpp, ... }: with libpp;
 {
   imports = [
-    (haumea ./configuration)
+    (haumea-module ./configuration)
     ./hardware-configuration.nix
   ];
   system.stateVersion = "23.11";

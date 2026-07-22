@@ -1,9 +1,6 @@
-{
-  haumea,
-  ...
-}:
+{ libpp, ... }: with libpp;
 {
   imports = [
-    (haumea ./configuration)
+    (haumea-module ./configuration)
   ];
 }

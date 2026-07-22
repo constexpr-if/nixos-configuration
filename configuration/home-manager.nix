@@ -1,4 +1,4 @@
-{ haumea, ... }: {
+{ libpp, ... }: {
   useGlobalPkgs = true;
   useUserPackages = true;
   backupFileExtension = "backup";
@@ -7,5 +7,5 @@
       ../users/constexpr12
     ];
   };
-  extraSpecialArgs = { inherit haumea; };
+  extraSpecialArgs = { inherit libpp; };
 }

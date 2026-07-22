@@ -1,7 +1,8 @@
-{ self, haumea, ... }: {
+{ libpp, ... }: with libpp;
+{
   users.constexpr12 = {
     imports = [
-      (haumea ../constexpr12)
+      (haumea-module ../constexpr12)
     ];
     home.stateVersion = "25.11";
   };
