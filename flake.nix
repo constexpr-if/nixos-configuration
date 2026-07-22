@@ -17,29 +17,26 @@
   outputs =
     { nixpkgs, home-manager, ... }@flakes:
     let
-      haumea =
-        src:
-        { pkgs, ... }@args:
-        flakes.haumea.lib.load {
-          inherit src;
-          inputs = args // {
-            inherit haumea;
-          };
-        };
+      inherit (nixpkgs) lib;
+      libpp = import ./libpp.nix flakes;
       nixosSystem =
-        modules:
-        nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit haumea; };
-          inherit modules;
+        hostconf:
+        lib.nixosSystem {
+          specialArgs = {
+            haumea = libpp.haumea-module;
+          };
+          modules = [
+            hostconf
+            home-manager.nixosModules.home-manager
+            (libpp.haumea-module ./configuration)
+          ];
         };
-      common = [
-        home-manager.nixosModules.home-manager
-        (haumea ./configuration)
-      ];
     in
     {
-      nixosConfigurations.constDesktop = nixosSystem (common ++ [ ./hosts/constDesktop ]);
-      nixosConfigurations.constLaptopTUF = nixosSystem (common ++ [ ./hosts/constLaptopTUF ]);
+      nixosConfigurations = {
+        constDesktop = nixosSystem ./hosts/constDesktop;
+        constLaptopTUF = nixosSystem ./hosts/constLaptopTUF;
+      };
     };
 
   nixConfig = {
