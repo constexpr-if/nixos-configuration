@@ -8,25 +8,20 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    haumea = {
-      url = "github:nix-community/haumea/v0.2.2";
-    };
   };
 
   outputs =
     { nixpkgs, home-manager, ... }@flakes:
     let
       inherit (nixpkgs) lib;
-      libpp = import ./libpp.nix flakes;
+      inherit (home-manager) nixosModules;
       nixosSystem =
         hostconf:
         lib.nixosSystem {
-          specialArgs = { inherit libpp; };
           modules = [
             hostconf
-            home-manager.nixosModules.home-manager
-            (libpp.haumea-module ./configuration)
+            nixosModules.home-manager
+            ./configuration.nix
             ./property/wheel.nix
           ];
         };

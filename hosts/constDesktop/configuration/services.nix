@@ -1,7 +1,0 @@
-{
-  # TODO: Make module for this
-  udev.extraRules = ''
-    ACTION=="add" SUBSYSTEM=="usb" ATTR{idVendor}=="046d" ATTR{idProduct}=="c548" ATTR{power/wakeup}="disabled"
-  '';
-  lact.enable = true;
-}
