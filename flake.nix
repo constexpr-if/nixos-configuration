@@ -28,8 +28,8 @@
     in
     {
       nixosConfigurations = {
-        constDesktop = nixosSystem ./hosts/constDesktop;
-        constLaptopTUF = nixosSystem ./hosts/constLaptopTUF;
+        constDesktop = nixosSystem ./configurations/constDesktop;
+        constLaptopTUF = nixosSystem ./configurations/constLaptopTUF;
       };
     };
 
