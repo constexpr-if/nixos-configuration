@@ -26,6 +26,7 @@
       settings.user = {
         name = "constexpr-if";
         email = "constexpr12@gmail.com";
+        safe.directory = "/etc/nixos";
       };
     };
     home-manager = {
