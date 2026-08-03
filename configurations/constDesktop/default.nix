@@ -1,21 +1,4 @@
 { pkgs, ... }:
-let
-  rocmEnv = pkgs.symlinkJoin {
-    name = "rocmEnv";
-    paths = with pkgs.rocmPackages; [
-      hipcc
-      clr
-      rocblas
-      hipblas
-      rocfft
-      hipfft
-      rocsolver
-      hipsolver
-      rocsparse
-      hipsparse
-    ];
-  };
-in
 {
   imports = [ ./hardware-configuration.nix ];
   hardware.graphics = {
@@ -29,7 +12,6 @@ in
     ACTION=="add" SUBSYSTEM=="usb" ATTR{idVendor}=="046d" ATTR{idProduct}=="c548" ATTR{power/wakeup}="disabled"
   '';
   services.lact.enable = true;
-  systemd.tmpfiles.rules = [ "L+ /opt/rocm - - - - ${rocmEnv}" ];
   home-manager.users.constexpr12 = { config, ... }: {
     programs = {
       firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
