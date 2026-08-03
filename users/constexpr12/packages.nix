@@ -76,7 +76,7 @@ in
   vlc
   watchexec
   wget
-  wineWow64Packages.waylandFull
+  wineWow64Packages.stable
   wireshark
   wl-clipboard-rs
   zellij
