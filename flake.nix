@@ -22,7 +22,7 @@
             hostconf
             nixosModules.home-manager
             ./configuration.nix
-            ./property/wheel.nix
+            ./modules/wheel.nix
           ];
         };
     in
