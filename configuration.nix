@@ -55,6 +55,7 @@
         ./users/constexpr12
       ];
     };
+    sharedModules = [ ];
   };
   i18n = {
     defaultLocale = "ko_KR.UTF-8";

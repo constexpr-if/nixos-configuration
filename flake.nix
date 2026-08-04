@@ -1,35 +1,25 @@
 {
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-26.05";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
-    home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }@flakes:
-    let
-      inherit (nixpkgs) lib;
-      inherit (home-manager) nixosModules;
-      nixosSystem =
-        hostconf:
-        lib.nixosSystem {
-          modules = [
-            hostconf
-            nixosModules.home-manager
-            ./configuration.nix
-          ];
-        };
-    in
     {
-      nixosConfigurations = {
-        constDesktop = nixosSystem ./configurations/constDesktop;
-        constLaptopTUF = nixosSystem ./configurations/constLaptopTUF;
-      };
+      nixpkgs,
+      home-manager,
+      flake-parts,
+      ...
+    }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ ];
+      imports = [
+        ./configurations/constDesktop.nix
+        ./configurations/constLaptopTUF.nix
+      ];
     };
 
   nixConfig = {
