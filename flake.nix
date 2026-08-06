@@ -8,12 +8,7 @@
   };
 
   outputs =
-    {
-      nixpkgs,
-      home-manager,
-      flake-parts,
-      ...
-    }@inputs:
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ ];
       imports = [
