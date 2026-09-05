@@ -1,7 +1,9 @@
+{ lib, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ./sshd.nix
+    ../../modules/hangul-console.nix
   ];
   # GUI-created Wi-Fi profiles store the PSK agent-owned in KWallet, which
   # breaks connecting at boot without a session. Removing plasma-nm (tray
