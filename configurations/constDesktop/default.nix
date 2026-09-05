@@ -3,7 +3,7 @@
   imports = [
     ./hardware-configuration.nix
     ./sshd.nix
-    ../../modules/hangul-console.nix
+    ../../modules/greetd-sway.nix
   ];
   # Plasma wires drkonqi-coredump-processor@ into every systemd-coredump@
   # run (plasma6.nix does this unconditionally, bypassing excludePackages).

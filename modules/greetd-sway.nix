@@ -4,11 +4,12 @@
   pkgs,
   ...
 }:
-# Uniform login on every VT, with sway as the default session. The kernel
-# console cannot render CJK and every console IME (uim-fep, fbterm) is
-# abandonware, so the hangul-capable "console" is sway + a terminal +
-# fcitx5 (input-method-v2/text-input-v3; same daemon and config as the
-# Plasma session).
+# Uniform login on every VT, with sway as the default session.
+#
+# Why sway instead of a plain console: the kernel console cannot render
+# CJK and every console IME (uim-fep, fbterm) is abandonware, so the
+# "console" is sway + a terminal + fcitx5 (input-method-v2/text-input-v3;
+# same daemon and config as the Plasma session).
 #
 # sway configuration is deliberately not managed here — it reads the
 # user's own ~/.config/sway/config (falling back to the stock
