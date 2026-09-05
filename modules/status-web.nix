@@ -1,6 +1,6 @@
 { pkgs, ... }:
 # Phone-checkable status page for the server: a systemd timer renders a
-# static HTML dashboard every 30 minutes and nginx serves it on :8434.
+# static HTML dashboard every minute and nginx serves it on :8434.
 # Reachable from the tailnet only (tailscale0 is a trusted interface;
 # 8434 is deliberately absent from the public firewall), so WireGuard
 # provides the transport encryption and peer authentication — no TLS or
@@ -17,7 +17,7 @@ let
     {
       echo '<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">'
       echo '<meta name="viewport" content="width=device-width, initial-scale=1">'
-      echo '<meta http-equiv="refresh" content="1800">'
+      echo '<meta http-equiv="refresh" content="60">'
       echo '<title>constDesktop status</title>'
       echo '<style>body{background:#111;color:#ddd;font-family:monospace;font-size:14px;line-height:1.5;margin:0;padding:12px}h1{font-size:16px;margin:0}.t{color:#888;font-size:12px}.ok{color:#7c6}.bad{color:#e66}pre{margin:10px 0 0;white-space:pre}</style>'
       echo '</head><body>'
@@ -84,8 +84,8 @@ in
   systemd.timers.status-web-generate = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnBootSec = "2min";
-      OnUnitActiveSec = "30min";
+      OnBootSec = "1min";
+      OnUnitActiveSec = "1min";
     };
   };
 }
