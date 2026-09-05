@@ -5,6 +5,13 @@
     ./sshd.nix
     ../../modules/hangul-console.nix
   ];
+  # Plasma wires drkonqi-coredump-processor@ into every systemd-coredump@
+  # run (plasma6.nix does this unconditionally, bypassing excludePackages).
+  # Without a Plasma session to collect the results the processors linger
+  # at ~40MB each. Dumps themselves are still recorded by systemd-coredump.
+  systemd.services."drkonqi-coredump-processor@".wantedBy = lib.mkForce [ ];
+  # Android container: off until actually needed (shared config enables it).
+  virtualisation.waydroid.enable = lib.mkForce false;
   # GUI-created Wi-Fi profiles store the PSK agent-owned in KWallet, which
   # breaks connecting at boot without a session. Removing plasma-nm (tray
   # applet + NM secret agent) forces nmcli/nmtui, which store secrets

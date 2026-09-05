@@ -104,6 +104,7 @@
       jack.enable = true;
     };
     cloudflare-warp.enable = true;
+    journald.extraConfig = "SystemMaxUse=300M";
     seatd.enable = true; # dependency of gamescope
     # The kernel console is limited to 512 glyphs and cannot render CJK;
     # kmscon replaces the VT gettys with a userspace console that can.
