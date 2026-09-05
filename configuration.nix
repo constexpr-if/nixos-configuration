@@ -105,6 +105,22 @@
     };
     cloudflare-warp.enable = true;
     seatd.enable = true; # dependency of gamescope
+    # The kernel console is limited to 512 glyphs and cannot render CJK;
+    # kmscon replaces the VT gettys with a userspace console that can.
+    kmscon = {
+      enable = true;
+      fonts = [
+        {
+          name = "Iosevka Nerd Font";
+          package = pkgs.nerd-fonts.iosevka;
+        }
+        {
+          name = "Noto Sans Mono CJK KR";
+          package = pkgs.noto-fonts-cjk-sans;
+        }
+      ];
+      extraConfig = "font-size=14";
+    };
   };
   time.timeZone = "Asia/Seoul";
   users.users.constexpr12 = {
