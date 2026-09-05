@@ -2,40 +2,21 @@
   boot.loader = {
     efi.canTouchEfiVariables = true;
     systemd-boot.enable = true;
+    systemd-boot.configurationLimit = 10;
   };
   boot.supportedFilesystems = {
-    fat32 = true;
+    vfat = true;
     ext4 = true;
     exfat = true;
     # tmpfs = true;
     ntfs = false;
   };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # Root-needed disk tools only; everything else lives in
+  # users/constexpr12/packages.nix (home-manager).
   environment.systemPackages = with pkgs; [
-    binutils
-    dnsmasq
-    dnsutils
-    ethtool
-    file
-    gdb
-    gettext
-    gnupg
     gparted
-    inetutils
-    iosevka
-    lsof
-    net-tools
-    nixfmt
-    nmap
     parted
-    python3
-    qemu_full
-    rocmPackages.rocm-smi
-    rocmPackages.rocminfo
-    tcpdump
-    tree
-    wget
-    wl-clipboard-rs
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
@@ -89,7 +70,6 @@
     ];
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 25565 ];
     };
     networkmanager.enable = true;
   };
@@ -102,8 +82,6 @@
     };
     steam = {
       enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
     };
   };
   security.rtkit.enable = true;
@@ -147,6 +125,12 @@
     };
   };
   virtualisation.waydroid.enable = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+  nix.optimise.automatic = true;
   nix.settings = {
     substituters = [
       "https://cache.nixos.org/"

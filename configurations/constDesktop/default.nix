@@ -24,6 +24,7 @@
   };
   hardware.amdgpu.opencl.enable = true;
   networking.hostName = "constDesktop";
+  networking.firewall.allowedTCPPorts = [ 25565 ];
   # Wi-Fi secrets must be system-owned (psk-flags=0) so NM can connect at
   # boot without a user session / KWallet agent. PSK lives outside the store.
   networking.networkmanager.ensureProfiles = {
@@ -53,9 +54,13 @@
         "U+Net76E8" = wifiProfile "U+Net76E8" "70ce9161-57e5-4218-a4a4-8da413f15ab5";
       };
   };
+  programs.steam = {
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
   # TODO: Make module for this
   services.udev.extraRules = ''
-    ACTION=="add" SUBSYSTEM=="usb" ATTR{idVendor}=="046d" ATTR{idProduct}=="c548" ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
   '';
   services.lact.enable = true;
   home-manager.users.constexpr12 = { config, ... }: {

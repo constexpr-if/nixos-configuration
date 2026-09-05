@@ -23,9 +23,11 @@
     };
     git = {
       enable = true;
-      settings.user = {
-        name = "constexpr-if";
-        email = "constexpr12@gmail.com";
+      settings = {
+        user = {
+          name = "constexpr-if";
+          email = "constexpr12@gmail.com";
+        };
         safe.directory = "/etc/nixos";
       };
     };
