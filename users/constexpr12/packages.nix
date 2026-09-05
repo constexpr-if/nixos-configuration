@@ -25,6 +25,7 @@ in
   file
   font-manager
   freecad
+  gamescope
   gdb
   gettext
   ghidra
@@ -35,7 +36,7 @@ in
   inetutils
   inotify-tools
   iosevka
-  jetbrains.idea-oss
+  jetbrains.idea
   jetbrains.rust-rover
   jq
   kdePackages.dolphin-plugins

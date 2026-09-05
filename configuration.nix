@@ -126,6 +126,7 @@
       jack.enable = true;
     };
     cloudflare-warp.enable = true;
+    seatd.enable = true; # dependency of gamescope
   };
   time.timeZone = "Asia/Seoul";
   users.users.constexpr12 = {

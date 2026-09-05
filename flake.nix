@@ -10,11 +10,7 @@
   outputs =
     { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ ];
-      imports = [
-        ./configurations/constDesktop.nix
-        ./configurations/constLaptopTUF.nix
-      ];
+      imports = [ ./flake/nixosConfigurations.nix ];
     };
 
   nixConfig = {
