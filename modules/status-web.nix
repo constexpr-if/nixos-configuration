@@ -33,6 +33,21 @@ let
       echo "SSH 24h  ok $ok / reject $rej"
       echo "up       $(${pkgs.procps}/bin/uptime -p | sed 's/^up //')"
       echo "load     $(cut -d' ' -f1-3 /proc/loadavg)"
+      e1=$(cat /sys/class/powercap/intel-rapl:0/energy_uj 2>/dev/null || echo 0)
+      sleep 1
+      e2=$(cat /sys/class/powercap/intel-rapl:0/energy_uj 2>/dev/null || echo 0)
+      # A runtime-suspended GPU rejects sensor reads (without waking up);
+      # report that state honestly instead of a misleading 0W.
+      gpurt=$(cat /sys/class/drm/card[0-9]/device/power/runtime_status 2>/dev/null | head -1)
+      if [ "$gpurt" = suspended ]; then
+        gpu_str="asleep"
+      else
+        gpu=$(cat /sys/class/drm/card[0-9]/device/hwmon/hwmon*/power1_average 2>/dev/null | head -1 || echo 0)
+        gpu_str=$(${pkgs.gawk}/bin/awk -v g="$gpu" 'BEGIN{printf "%.0fW", g/1e6}')
+      fi
+      cpu_str=$(${pkgs.gawk}/bin/awk -v a="$e1" -v b="$e2" \
+        'BEGIN{if(a==0||b<a)print "n/a";else printf "%.1fW",(b-a)/1e6}')
+      echo "power    CPU $cpu_str / GPU $gpu_str"
       ${pkgs.procps}/bin/free -b | ${pkgs.gawk}/bin/awk \
         'NR==2{printf "RAM      %.1f/%.0fGi (free %.0fGi)\n", $3/2^30, $2/2^30, $7/2^30}'
       ${pkgs.coreutils}/bin/df -h --output=target,pcent,avail / /home /nix/store | \
