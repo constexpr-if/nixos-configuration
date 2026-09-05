@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./sshd.nix
     ../../modules/greetd-sway.nix
+    ../../modules/status-web.nix
   ];
   # Plasma wires drkonqi-coredump-processor@ into every systemd-coredump@
   # run (plasma6.nix does this unconditionally, bypassing excludePackages).
