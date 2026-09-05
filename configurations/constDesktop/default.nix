@@ -20,6 +20,17 @@
       );
     })
   ];
+  # Server duty: refuse suspend (RAM sleep) so nothing — powerdevil,
+  # swayidle, a stray `systemctl suspend` — can doze the box. Hibernation
+  # stays allowed as the non-destructive path into the Windows dual-boot:
+  # it saves state to swap and powers off, and stage-1 auto-resumes from
+  # the declared swap device on the next Linux boot.
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "no";
+    AllowHibernation = "yes";
+    AllowSuspendThenHibernate = "no";
+    AllowHybridSleep = "no";
+  };
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
