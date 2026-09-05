@@ -32,6 +32,7 @@ in
   gmsh
   gnupg
   gparted
+  grim
   halloy
   inetutils
   inotify-tools
@@ -67,6 +68,8 @@ in
   rocmPackages.rocminfo
   rofi
   spotify
+  swayidle
+  swaylock
   tcpdump
   telegram-desktop
   tetrio-desktop

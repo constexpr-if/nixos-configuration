@@ -21,6 +21,11 @@
     firefox = {
       enable = true;
     };
+    # Terminal for the sway-console hangul TTY (modules/hangul-console.nix).
+    foot = {
+      enable = true;
+      settings.main.font = "Iosevka Nerd Font:size=12, Noto Sans Mono CJK KR:size=12";
+    };
     git = {
       enable = true;
       settings = {
