@@ -1,11 +1,11 @@
 { pkgs, ... }:
 # Phone-checkable status page for the server: a systemd timer renders a
-# static HTML dashboard every 30 minutes and nginx serves it on :8434
-# with a self-signed certificate and basic auth. The htpasswd source
-# lives in gitignored /etc/nixos/secrets (like wifi.env) and is installed
-# with nginx-readable permissions at activation; regenerate it with
-# `openssl passwd -apr1`. If the page itself is unreachable, the box is
-# down — that is signal too.
+# static HTML dashboard every 30 minutes and nginx serves it on :8434.
+# Reachable from the tailnet only (tailscale0 is a trusted interface;
+# 8434 is deliberately absent from the public firewall), so WireGuard
+# provides the transport encryption and peer authentication — no TLS or
+# basic auth needed. If the page is unreachable, the box is down — that
+# is signal too.
 let
   stateDir = "/var/lib/status-web";
   # Raw `free`/`df` tables wrap badly on a phone screen; render compact
@@ -43,33 +43,24 @@ let
   '';
 in
 {
-  networking.firewall.allowedTCPPorts = [ 8434 ];
-
   services.nginx = {
     enable = true;
     virtualHosts."status" = {
-      onlySSL = true;
       listen = [
         {
           addr = "0.0.0.0";
           port = 8434;
-          ssl = true;
         }
         {
           addr = "[::]";
           port = 8434;
-          ssl = true;
         }
       ];
-      sslCertificate = "${stateDir}/cert/cert.pem";
-      sslCertificateKey = "${stateDir}/cert/key.pem";
-      basicAuthFile = "${stateDir}/htpasswd";
       root = "${stateDir}/site";
     };
   };
 
-  # Self-signed cert (first boot only) + htpasswd install; also renders the
-  # page once so nginx never serves an empty root.
+  # Renders the page once at activation so nginx never serves an empty root.
   systemd.services.status-web-setup = {
     wantedBy = [ "multi-user.target" ];
     requiredBy = [ "nginx.service" ];
@@ -79,17 +70,7 @@ in
       RemainAfterExit = true;
     };
     script = ''
-      mkdir -p ${stateDir}/cert ${stateDir}/site
-      if [ ! -f ${stateDir}/cert/cert.pem ]; then
-        ${pkgs.openssl}/bin/openssl req -x509 -newkey rsa:2048 -nodes \
-          -keyout ${stateDir}/cert/key.pem -out ${stateDir}/cert/cert.pem \
-          -days 3650 -subj "/CN=constDesktop"
-      fi
-      # NixOS runs nginx as the nginx user (no root master process), so it
-      # must be able to read the key itself.
-      chgrp nginx ${stateDir}/cert/key.pem
-      chmod 640 ${stateDir}/cert/key.pem
-      install -m 640 -o root -g nginx /etc/nixos/secrets/status-web.htpasswd ${stateDir}/htpasswd
+      mkdir -p ${stateDir}/site
       ${genScript}
     '';
   };
