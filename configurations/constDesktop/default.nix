@@ -3,12 +3,56 @@
     ./hardware-configuration.nix
     ./sshd.nix
   ];
+  # GUI-created Wi-Fi profiles store the PSK agent-owned in KWallet, which
+  # breaks connecting at boot without a session. Removing plasma-nm (tray
+  # applet + NM secret agent) forces nmcli/nmtui, which store secrets
+  # system-owned by default. The plasma6 module adds plasma-nm outside the
+  # excludePackages filter whenever NetworkManager is on, so an overlay is
+  # the only way to keep it out.
+  nixpkgs.overlays = [
+    (final: prev: {
+      kdePackages = prev.kdePackages.overrideScope (
+        kfinal: kprev: {
+          plasma-nm = final.emptyDirectory;
+        }
+      );
+    })
+  ];
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
   hardware.amdgpu.opencl.enable = true;
   networking.hostName = "constDesktop";
+  # Wi-Fi secrets must be system-owned (psk-flags=0) so NM can connect at
+  # boot without a user session / KWallet agent. PSK lives outside the store.
+  networking.networkmanager.ensureProfiles = {
+    environmentFiles = [ "/etc/nixos/secrets/wifi.env" ];
+    profiles =
+      let
+        wifiProfile = ssid: uuid: {
+          connection = {
+            id = ssid;
+            inherit uuid;
+            type = "wifi";
+          };
+          wifi = {
+            mode = "infrastructure";
+            inherit ssid;
+          };
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$WIFI_PSK";
+          };
+          ipv4.method = "auto";
+          ipv6.method = "auto";
+        };
+      in
+      {
+        "U+Net76E8_5G" = wifiProfile "U+Net76E8_5G" "d3694fbe-1c4a-4db0-aa10-c7841aa79c94";
+        "U+Net76E8" = wifiProfile "U+Net76E8" "70ce9161-57e5-4218-a4a4-8da413f15ab5";
+      };
+  };
   # TODO: Make module for this
   services.udev.extraRules = ''
     ACTION=="add" SUBSYSTEM=="usb" ATTR{idVendor}=="046d" ATTR{idProduct}=="c548" ATTR{power/wakeup}="disabled"
