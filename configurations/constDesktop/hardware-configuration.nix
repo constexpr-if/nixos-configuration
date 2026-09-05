@@ -31,7 +31,6 @@
     { device = "/dev/disk/by-uuid/343cd444-cd3e-4b30-a4b1-078c21e10377"; }
   ];
 
-  networking.interfaces.wlp4s0.useDHCP = true;
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
