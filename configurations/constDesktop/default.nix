@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -39,6 +39,19 @@
     AllowSuspendThenHibernate = "no";
     AllowHybridSleep = "no";
   };
+  # Idle-power trim, measured 2026-09-06 with the status-web power line:
+  # powertop auto-tune (USB autosuspend, audio power save — wall-side only)
+  # and ASPM powersupersave (package 16.3W → ~15.8W; PCIe controller sits
+  # on the IO die). This is the software floor for AM4 + dGPU; further
+  # cuts live in BIOS (ErP, RAM/fclk clock) or PSU efficiency.
+  powerManagement.powertop.enable = true;
+  boot.kernelParams = [ "pcie_aspm.policy=powersupersave" ];
+  # SMU telemetry: `sudo ryzen-monitor-ng` shows package-C6/fabric
+  # residency the OS cannot see — for verifying the BIOS "DF Cstates"
+  # lever before/after.
+  boot.extraModulePackages = [ config.boot.kernelPackages.ryzen-smu ];
+  boot.kernelModules = [ "ryzen_smu" ];
+  environment.systemPackages = [ pkgs.ryzen-monitor-ng ]; # root-only SMU reader
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
