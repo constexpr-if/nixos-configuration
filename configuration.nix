@@ -70,6 +70,8 @@
     ];
     firewall = {
       enable = true;
+      # Tailnet peers are authenticated by the overlay itself.
+      trustedInterfaces = [ "tailscale0" ];
     };
     networkmanager.enable = true;
   };
@@ -105,6 +107,10 @@
     };
     cloudflare-warp.enable = true;
     journald.extraConfig = "SystemMaxUse=300M";
+    # Overlay network: phone/laptop reach this and each host without port
+    # forwarding. Migration plan: run alongside the existing 22/8434
+    # forwards first, close them at the router once tailnet proves stable.
+    tailscale.enable = true;
     seatd.enable = true; # dependency of gamescope
     # The kernel console is limited to 512 glyphs and cannot render CJK;
     # kmscon replaces the VT gettys with a userspace console that can.
