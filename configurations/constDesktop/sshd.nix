@@ -24,6 +24,7 @@
   };
   users.users."constexpr12".openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOFcsVWuCOiqsbdNV8ED17/ICy/2n21tTWnHbH/HZg2R"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZW4l4cCete3GbDeu/YvZxKB00OpIPVlURXWDsQXZ+b"
   ];
 
   # Dedicated account for nix builds offloaded from the laptop. nix
