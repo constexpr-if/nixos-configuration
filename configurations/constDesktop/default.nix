@@ -96,7 +96,6 @@
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
   '';
-  services.lact.enable = true;
   home-manager.users.constexpr12 = { config, ... }: {
     programs = {
       firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
