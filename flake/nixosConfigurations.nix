@@ -11,6 +11,7 @@ let
     inputs.nixpkgs.lib.nixosSystem {
       modules = [
         hmModule
+        inputs.kis-broker.nixosModules.default
         (self + "/configuration.nix")
         hostconf
       ];

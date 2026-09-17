@@ -1,4 +1,5 @@
 { config, pkgs, ... }: {
+  imports = [ ./claude.nix ];
   dconf = {
     settings = {
       "org/virt-manager/virt-manager/connections" = {

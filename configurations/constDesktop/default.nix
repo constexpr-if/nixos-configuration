@@ -3,6 +3,7 @@
   imports = [
     ./hardware-configuration.nix
     ./sshd.nix
+    ./trading.nix
     ../../modules/greetd-sway.nix
     ../../modules/status-web.nix
   ];
@@ -45,7 +46,26 @@
   # on the IO die). This is the software floor for AM4 + dGPU; further
   # cuts live in BIOS (ErP, RAM/fclk clock) or PSU efficiency.
   powerManagement.powertop.enable = true;
-  boot.kernelParams = [ "pcie_aspm.policy=powersupersave" ];
+  # dGPU runtime PM (BACO) never engages while fbcon keeps repainting the
+  # blinking cursor: each repaint refreshes amdgpu's 5s autosuspend timer,
+  # so the card sits in D0 forever even with no display attached
+  # (suspended_time stayed 0ms since boot). Stop the blink outright — the
+  # tmpfiles write applies on activation, no reboot — and blank the
+  # console after 60s idle as the general backstop.
+  # The LG UltraGear drops DP HPD in deep standby, so a boot with the
+  # monitor asleep leaves DP-1 "disconnected" and fbcon with no CRTC
+  # ("Cannot find any crtc or sizes") — and once the card enters BACO it
+  # never re-probes, so keypresses unblank into nothing. Forcing DP-1
+  # enabled with a fixed mode gives fbcon a CRTC regardless of detection;
+  # runtime PM is unaffected because suspend keys off active CRTCs, not
+  # connector status: consoleblank still disables the pipe and BACO
+  # engages as before. 60Hz on purpose — console output, always in spec.
+  boot.kernelParams = [
+    "pcie_aspm.policy=powersupersave"
+    "consoleblank=60"
+    "video=DP-1:1920x1080@60e"
+  ];
+  systemd.tmpfiles.rules = [ "w /sys/class/graphics/fbcon/cursor_blink - - - - 0" ];
   # SMU telemetry: `sudo ryzen-monitor-ng` shows package-C6/fabric
   # residency the OS cannot see — for verifying the BIOS "DF Cstates"
   # lever before/after.
@@ -96,10 +116,26 @@
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
   '';
-  home-manager.users.constexpr12 = { config, ... }: {
+  home-manager.users.constexpr12 = { config, pkgs, ... }: {
     programs = {
       firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
       zsh.dotDir = "${config.xdg.configHome}/zsh";
+    };
+    # Remote Control host: lets claude.ai/code and the mobile app open
+    # sessions on this box (new sessions spawn in $HOME). Linger is on for
+    # this user, so it comes up at boot with no login.
+    systemd.user.services.claude-rc = {
+      Unit = {
+        Description = "Claude Code Remote Control (claude.ai/code)";
+        After = [ "network-online.target" ];
+      };
+      Service = {
+        WorkingDirectory = "%h";
+        ExecStart = "${pkgs.claude-code}/bin/claude remote-control --name constDesktop";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install.WantedBy = [ "default.target" ];
     };
     home.stateVersion = "25.11";
   };
