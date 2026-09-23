@@ -113,9 +113,28 @@
     dedicatedServer.openFirewall = true;
   };
   # TODO: Make module for this
+  # SlimBlade Pro (047d:80d7): USB autosuspend adds a wake-up stutter on the
+  # first movement, so pin it awake. The udev rule covers replug; the boot
+  # path needs the oneshot below because powertop --auto-tune runs at
+  # multi-user.target — after udev has processed the device — and flips
+  # every USB device back to "auto".
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c548", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="047d", ATTR{idProduct}=="80d7", ATTR{power/control}="on"
   '';
+  systemd.services.trackball-no-autosuspend = {
+    description = "Keep SlimBlade Pro out of USB autosuspend (powertop overrides udev at boot)";
+    after = [ "powertop.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      for d in /sys/bus/usb/devices/*/; do
+        if [ "$(cat "$d/idVendor" 2>/dev/null)" = "047d" ] && [ "$(cat "$d/idProduct" 2>/dev/null)" = "80d7" ]; then
+          echo on > "$d/power/control"
+        fi
+      done
+    '';
+  };
   home-manager.users.constexpr12 = { config, pkgs, ... }: {
     programs = {
       firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
