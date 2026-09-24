@@ -9,6 +9,12 @@ permissions:
   contents: write
   pull-requests: write
 
+# kis-broker는 실거래 인프라라 봇이 올리지 않는다 — 코드를 검토하고
+# `nix flake update kis-broker`로 직접 올릴 것.
+env:
+  INPUTS: nixpkgs nixpkgs-unstable home-manager flake-parts
+  HOSTS: constDesktop constLaptopTUF
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -17,14 +23,45 @@ jobs:
         with:
           ref: main
       - uses: cachix/install-nix-action@v31
+      - name: 갱신 전 toplevel drv 기록
+        run: |
+          for h in $HOSTS; do
+            nix eval --raw ".#nixosConfigurations.$h.config.system.build.toplevel.drvPath" > "$RUNNER_TEMP/$h.before"
+          done
       - name: flake 입력 갱신
-        run: nix flake update
+        run: nix flake update $INPUTS
       # 봇 PR에는 다른 워크플로가 트리거되지 않으므로 평가 게이트를
       # PR 생성 전에 이 잡에서 직접 수행한다. 실패하면 PR도 없다.
       - name: 평가 게이트 (양 호스트 toplevel)
         run: |
-          nix eval .#nixosConfigurations.constDesktop.config.system.build.toplevel.drvPath
-          nix eval .#nixosConfigurations.constLaptopTUF.config.system.build.toplevel.drvPath
+          for h in $HOSTS; do
+            nix eval --raw ".#nixosConfigurations.$h.config.system.build.toplevel.drvPath" > "$RUNNER_TEMP/$h.after"
+          done
+      # 러너에서 두 시스템을 통째로 빌드할 수는 없으므로 derivation
+      # closure끼리 비교한다(빌드 불필요). 빌드 전용 의존성까지 포함하므로
+      # runtime closure보다 넓게 잡힌다. 소스·패치처럼 버전 없는 항목은 뺀다.
+      - name: 변경 요약 (diff-closures)
+        run: |
+          body="$RUNNER_TEMP/body.md"
+          {
+            echo "\`nix flake update $INPUTS\` 자동 실행 결과입니다."
+            echo "양 호스트 toplevel 평가를 통과했습니다. 머지 전 Hydra lock-update 빌드(필수 체크)를 확인하세요."
+            echo
+            echo "kis-broker는 이 PR에서 갱신하지 않습니다."
+            for h in $HOSTS; do
+              echo
+              echo "### $h"
+              echo
+              echo '```'
+              nix store diff-closures "$(cat "$RUNNER_TEMP/$h.before")" "$(cat "$RUNNER_TEMP/$h.after")" \
+                | sed 's/\.drv\b//g' \
+                | grep -vE ': (ε|∅) → (ε|∅)$' \
+                | head -n 300 || true
+              echo '```'
+            done
+          } > "$body"
+          # PR 본문 한도(65536자) 안으로 자른다.
+          head -c 60000 "$body" > "$body.tmp" && mv "$body.tmp" "$body"
       - uses: peter-evans/create-pull-request@v8
         with:
           branch: ci/update-flake-lock
@@ -34,9 +71,7 @@ jobs:
           commit-message: |
             flake 입력 업데이트
 
-            update-flake-lock 워크플로 자동 갱신.
+            update-flake-lock 워크플로 자동 갱신 (kis-broker 제외).
             양 호스트 toplevel 평가 통과.
-          body: |
-            `nix flake update` 자동 실행 결과입니다.
-            constDesktop·constLaptopTUF toplevel 평가를 통과했습니다.
+          body-path: ${{ runner.temp }}/body.md
           labels: dependencies
