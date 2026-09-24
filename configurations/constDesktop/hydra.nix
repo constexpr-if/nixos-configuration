@@ -7,6 +7,23 @@
     # 없으면 cache.nixos.org에 이미 있는 것까지 전부 로컬 빌드한다.
     useSubstitutes = true;
   };
+  # 모듈의 hydra-init이 `runuser … createdb -O hydra hydra`를 `--` 없이
+  # 호출해 runuser가 -O를 자기 옵션으로 파싱하고 죽는다(nixpkgs 버그;
+  # 같은 스크립트의 psql 호출엔 `--`가 있다). DB/유저를 ensure*로 만들고
+  # 마커 파일을 미리 둬서 고장난 분기를 통째로 건너뛴다.
+  services.postgresql = {
+    ensureUsers = [
+      {
+        name = "hydra";
+        ensureDBOwnership = true;
+      }
+    ];
+    ensureDatabases = [ "hydra" ];
+  };
+  systemd.tmpfiles.rules = [
+    "d /var/lib/hydra 0750 hydra hydra - -"
+    "f /var/lib/hydra/.db-created 0644 hydra hydra - -"
+  ];
   # hydra-evaluator는 restricted eval로 돌므로 flake 입력 fetch 대상을
   # 명시적으로 허용해야 한다.
   nix.settings.allowed-uris = [
