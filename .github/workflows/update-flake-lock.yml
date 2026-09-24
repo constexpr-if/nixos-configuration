@@ -1,0 +1,42 @@
+name: update-flake-lock
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # 매주 월요일 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: desktop
+      - uses: DeterminateSystems/nix-installer-action@v23
+      - name: flake 입력 갱신
+        run: nix flake update
+      # 봇 PR에는 다른 워크플로가 트리거되지 않으므로 평가 게이트를
+      # PR 생성 전에 이 잡에서 직접 수행한다. 실패하면 PR도 없다.
+      - name: 평가 게이트 (양 호스트 toplevel)
+        run: |
+          nix eval .#nixosConfigurations.constDesktop.config.system.build.toplevel.drvPath
+          nix eval .#nixosConfigurations.constLaptopTUF.config.system.build.toplevel.drvPath
+      - uses: peter-evans/create-pull-request@v8
+        with:
+          branch: ci/update-flake-lock
+          base: desktop
+          delete-branch: true
+          title: "flake 입력 업데이트"
+          commit-message: |
+            flake 입력 업데이트
+
+            update-flake-lock 워크플로 자동 갱신.
+            양 호스트 toplevel 평가 통과.
+          body: |
+            `nix flake update` 자동 실행 결과입니다.
+            constDesktop·constLaptopTUF toplevel 평가를 통과했습니다.
+          labels: dependencies
