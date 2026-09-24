@@ -33,4 +33,4 @@ jobs:
         run: nix run --inputs-from . nixpkgs#nixfmt -- --check $(git ls-files '*.nix')
       # 오버레이의 final/prev 같은 관용적 미사용 인자는 경고하지 않는다.
       - name: deadnix
-        run: nix run --inputs-from . nixpkgs#deadnix -- --fail --no-lambda-arg --no-lambda-pattern-names --exclude archive -- .
+        run: nix run --inputs-from . nixpkgs#deadnix -- --fail --no-lambda-arg --no-lambda-pattern-names -- .
