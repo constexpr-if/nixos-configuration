@@ -1,0 +1,28 @@
+{
+  "desktop": {
+    "enabled": 1,
+    "hidden": false,
+    "description": "desktop 브랜치: 양 호스트 toplevel",
+    "type": 1,
+    "flake": "github:constexpr-if/nixos-configuration/desktop",
+    "checkinterval": 300,
+    "schedulingshares": 100,
+    "enableemail": false,
+    "emailoverride": "",
+    "keepnr": 3,
+    "inputs": {}
+  },
+  "lock-update": {
+    "enabled": 1,
+    "hidden": false,
+    "description": "봇 PR(ci/update-flake-lock) 머지 전 빌드 검증",
+    "type": 1,
+    "flake": "github:constexpr-if/nixos-configuration?ref=ci/update-flake-lock",
+    "checkinterval": 300,
+    "schedulingshares": 100,
+    "enableemail": false,
+    "emailoverride": "",
+    "keepnr": 1,
+    "inputs": {}
+  }
+}
