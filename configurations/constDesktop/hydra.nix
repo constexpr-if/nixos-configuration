@@ -10,6 +10,11 @@
     notificationSender = "hydra@constdesktop";
     # 없으면 cache.nixos.org에 이미 있는 것까지 전부 로컬 빌드한다.
     useSubstitutes = true;
+    # Haskell flake(kis-broker 등)의 callCabal2nix는 IFD라서 평가기
+    # 기본값(IFD 금지)에서는 평가가 실패한다. 자기 레포만 돌리는 CI라 허용.
+    extraConfig = ''
+      allow_import_from_derivation = true
+    '';
   };
   # 모듈의 hydra-init이 `runuser … createdb -O hydra hydra`를 `--` 없이
   # 호출해 runuser가 -O를 자기 옵션으로 파싱하고 죽는다(nixpkgs 버그;
