@@ -1,0 +1,48 @@
+name: update-pr-branches
+
+# main이 앞서 나가면 main을 대상으로 열린 PR 브랜치에 main을 병합한다
+# ("Update branch" 버튼 자동화). ruleset이 up-to-date를 요구하므로 이게
+# 없으면 main 커밋마다 PR이 뒤처져 머지가 막힌다. PR 브랜치만 갱신하고
+# main에는 손대지 않는다 — 머지 판단은 여전히 사람, 병합 결과의 검증은
+# Hydra가 다시 빌드해 status로 보고한다.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-pr-branches
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 뒤처진 PR 브랜치에 main 병합
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          # 포크 PR은 GITHUB_TOKEN으로 갱신할 수 없으므로 제외한다.
+          gh pr list --repo "$REPO" --base main --state open \
+            --json number,headRefOid,isCrossRepository \
+            --jq '.[] | select(.isCrossRepository | not) | "\(.number) \(.headRefOid)"' |
+          while read -r n sha; do
+            behind=$(gh api "repos/$REPO/compare/main...$sha" --jq .behind_by)
+            if [ "$behind" -eq 0 ]; then
+              echo "#$n: 최신"
+              continue
+            fi
+            # expected_head_sha: 조회 이후 누가 브랜치를 바꿨으면 덮어쓰지 않는다.
+            # 충돌 등으로 실패해도 다른 PR은 계속 처리한다.
+            if gh api -X PUT "repos/$REPO/pulls/$n/update-branch" -f expected_head_sha="$sha" >/dev/null; then
+              echo "#$n: main보다 $behind 커밋 뒤처짐 → 병합"
+            else
+              echo "::warning::#$n: 자동 갱신 실패(충돌 가능) — 수동 확인 필요"
+            fi
+          done
