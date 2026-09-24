@@ -2,7 +2,7 @@ name: check
 
 on:
   push:
-    branches: [main, desktop, laptop]
+    branches: [main]
   pull_request:
 
 concurrency:
@@ -20,3 +20,17 @@ jobs:
       - uses: cachix/install-nix-action@v31
       - name: toplevel 평가
         run: nix eval .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath
+
+  # 도구는 flake에 고정된 nixpkgs에서 가져와 로컬과 버전을 맞춘다.
+  # statix는 넣지 않는다 — 이 레포의 `services.x = …; services.y = …;`
+  # 스타일이 W20(repeated keys) 경고로 도배된다.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - name: nixfmt
+        run: nix run --inputs-from . nixpkgs#nixfmt -- --check $(git ls-files '*.nix')
+      # 오버레이의 final/prev 같은 관용적 미사용 인자는 경고하지 않는다.
+      - name: deadnix
+        run: nix run --inputs-from . nixpkgs#deadnix -- --fail --no-lambda-arg --no-lambda-pattern-names --exclude archive -- .

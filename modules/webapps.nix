@@ -58,14 +58,12 @@ let
   # 없으므로 깨질 게 없고, 내용 변경은 곧 시스템 세대 변경이다.
   portalRoot =
     let
-      entry =
-        name: app:
-        ''
-          <li><a href="${appUrl app}">
-            <span class="n">${app.title}</span><span class="p">:${toString app.port}</span>
-            ${lib.optionalString (app.description != "") ''<span class="d">${app.description}</span>''}
-          </a></li>
-        '';
+      entry = name: app: ''
+        <li><a href="${appUrl app}">
+          <span class="n">${app.title}</span><span class="p">:${toString app.port}</span>
+          ${lib.optionalString (app.description != "") ''<span class="d">${app.description}</span>''}
+        </a></li>
+      '';
       entries = lib.concatStrings (
         map (name: entry name portalApps.${name}) (
           lib.sortOn (name: portalApps.${name}.port) (lib.attrNames portalApps)
@@ -102,7 +100,7 @@ in
     portalPort = lib.mkOption {
       type = lib.types.port;
       default = if tls then 443 else 80;
-      defaultText = lib.literalExpression ''if tls then 443 else 80'';
+      defaultText = lib.literalExpression "if tls then 443 else 80";
       description = "포털 페이지 포트";
     };
     tls = {
@@ -188,59 +186,58 @@ in
       enable = true;
       recommendedProxySettings = lib.mkDefault true;
       recommendedTlsSettings = lib.mkDefault tls;
-      virtualHosts =
-        {
-          webapps-portal = {
-            listen = listenOn cfg.portalPort;
-            root = portalRoot;
-          }
-          // sslFiles;
+      virtualHosts = {
+        webapps-portal = {
+          listen = listenOn cfg.portalPort;
+          root = portalRoot;
         }
-        # TLS 시 80은 포털로 301 — 옛 http 북마크와 맨손 `http://host` 입력을 받는다.
-        // lib.optionalAttrs tls {
-          webapps-portal-redirect = {
-            listen = [
-              {
-                addr = "0.0.0.0";
-                port = 80;
-              }
-              {
-                addr = "[::]";
-                port = 80;
-              }
-            ];
-            locations."/".return = "301 https://${cfg.tls.fqdn}$request_uri";
-          };
-        }
-        // lib.mapAttrs' (
-          name: app:
-          lib.nameValuePair "webapps-${name}" (
+        // sslFiles;
+      }
+      # TLS 시 80은 포털로 301 — 옛 http 북마크와 맨손 `http://host` 입력을 받는다.
+      // lib.optionalAttrs tls {
+        webapps-portal-redirect = {
+          listen = [
             {
-              listen = listenOn app.port;
+              addr = "0.0.0.0";
+              port = 80;
             }
-            // sslFiles
-            // lib.optionalAttrs (app.upstream != null) {
-              locations."/" = {
-                proxyPass = app.upstream;
-                proxyWebsockets = true;
-                # 비표준 포트 vhost라 recommended 헤더의 `Host $host`로는
-                # 포트가 탈락해 앱이 :포트 없는 절대 URL을 만든다(hydra
-                # CSS 404). 포트를 보존해 직접 넘긴다 — location에
-                # proxy_set_header가 하나라도 있으면 상위 것은 상속되지
-                # 않으므로 전부 명시한다.
-                recommendedProxySettings = false;
-                extraConfig = ''
-                  proxy_set_header Host $host:$server_port;
-                  proxy_set_header X-Real-IP $remote_addr;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto $scheme;
-                  proxy_set_header X-Forwarded-Host $host:$server_port;
-                '';
-              };
+            {
+              addr = "[::]";
+              port = 80;
             }
-            // lib.optionalAttrs (app.root != null) { root = app.root; }
-          )
-        ) servedApps;
+          ];
+          locations."/".return = "301 https://${cfg.tls.fqdn}$request_uri";
+        };
+      }
+      // lib.mapAttrs' (
+        name: app:
+        lib.nameValuePair "webapps-${name}" (
+          {
+            listen = listenOn app.port;
+          }
+          // sslFiles
+          // lib.optionalAttrs (app.upstream != null) {
+            locations."/" = {
+              proxyPass = app.upstream;
+              proxyWebsockets = true;
+              # 비표준 포트 vhost라 recommended 헤더의 `Host $host`로는
+              # 포트가 탈락해 앱이 :포트 없는 절대 URL을 만든다(hydra
+              # CSS 404). 포트를 보존해 직접 넘긴다 — location에
+              # proxy_set_header가 하나라도 있으면 상위 것은 상속되지
+              # 않으므로 전부 명시한다.
+              recommendedProxySettings = false;
+              extraConfig = ''
+                proxy_set_header Host $host:$server_port;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header X-Forwarded-Host $host:$server_port;
+              '';
+            };
+          }
+          // lib.optionalAttrs (app.root != null) { root = app.root; }
+        )
+      ) servedApps;
     };
 
     # ts.net 인증서 발급·갱신. `tailscale cert`는 만료가 가까울 때만 LE에
