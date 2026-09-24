@@ -2,7 +2,7 @@
   "main": {
     "enabled": 1,
     "hidden": false,
-    "description": "main 브랜치: 양 호스트 toplevel",
+    "description": "main branch: toplevel of both hosts",
     "type": 1,
     "flake": "github:constexpr-if/nixos-configuration/main",
     "checkinterval": 300,
@@ -15,7 +15,7 @@
   "lock-update": {
     "enabled": 1,
     "hidden": false,
-    "description": "봇 PR(ci/update-flake-lock) 머지 전 빌드 검증",
+    "description": "bot PR (ci/update-flake-lock): build check before merge",
     "type": 1,
     "flake": "github:constexpr-if/nixos-configuration?ref=ci/update-flake-lock",
     "checkinterval": 300,
