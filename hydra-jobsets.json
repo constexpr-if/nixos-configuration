@@ -1,10 +1,10 @@
 {
-  "desktop": {
+  "main": {
     "enabled": 1,
     "hidden": false,
-    "description": "desktop 브랜치: 양 호스트 toplevel",
+    "description": "main 브랜치: 양 호스트 toplevel",
     "type": 1,
-    "flake": "github:constexpr-if/nixos-configuration/desktop",
+    "flake": "github:constexpr-if/nixos-configuration/main",
     "checkinterval": 300,
     "schedulingshares": 100,
     "enableemail": false,

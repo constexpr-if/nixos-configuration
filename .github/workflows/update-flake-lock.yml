@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: desktop
+          ref: main
       - uses: DeterminateSystems/nix-installer-action@v23
       - name: flake 입력 갱신
         run: nix flake update
@@ -28,7 +28,7 @@ jobs:
       - uses: peter-evans/create-pull-request@v8
         with:
           branch: ci/update-flake-lock
-          base: desktop
+          base: main
           delete-branch: true
           title: "flake 입력 업데이트"
           commit-message: |
