@@ -58,21 +58,12 @@ let
   '';
 in
 {
-  services.nginx = {
-    enable = true;
-    virtualHosts."status" = {
-      listen = [
-        {
-          addr = "0.0.0.0";
-          port = 8434;
-        }
-        {
-          addr = "[::]";
-          port = 8434;
-        }
-      ];
-      root = "${stateDir}/site";
-    };
+  # vhost(TLS 포함)는 webapps 모듈이 만든다; 여기는 내용 생성만 남는다.
+  webapps.apps.status = {
+    title = "Status";
+    port = 8434;
+    description = "전력 · 부하 · 디스크 · SSH 대시보드";
+    root = "${stateDir}/site";
   };
 
   # Renders the page once at activation so nginx never serves an empty root.

@@ -7,7 +7,13 @@
     ./trading.nix
     ../../modules/greetd-sway.nix
     ../../modules/status-web.nix
+    ../../modules/webapps.nix
   ];
+  # 관리 콘솔에서 HTTPS Certificates를 켜야 발급된다 (DNS 탭).
+  webapps.tls = {
+    enable = true;
+    fqdn = "constdesktop.tail5b5022.ts.net";
+  };
   # Plasma wires drkonqi-coredump-processor@ into every systemd-coredump@
   # run (plasma6.nix does this unconditionally, bypassing excludePackages).
   # Without a Plasma session to collect the results the processors linger
