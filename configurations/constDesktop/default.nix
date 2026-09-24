@@ -2,6 +2,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./hydra.nix
     ./sshd.nix
     ./trading.nix
     ../../modules/greetd-sway.nix
