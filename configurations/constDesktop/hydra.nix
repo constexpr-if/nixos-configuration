@@ -12,8 +12,28 @@
     useSubstitutes = true;
     # Haskell flake(kis-broker 등)의 callCabal2nix는 IFD라서 평가기
     # 기본값(IFD 금지)에서는 평가가 실패한다. 자기 레포만 돌리는 CI라 허용.
+    #
+    # githubstatus: 빌드 상태를 GitHub 커밋 status로 보낸다. lock-update의
+    # status가 main ruleset의 필수 체크 + 봇 PR auto-merge의 근거가 된다.
+    # context는 빌드 ID를 빼서 고정해야 필수 체크로 지정할 수 있다
+    # (ci/hydra:nixos-configuration:<jobset>:<host>).
+    # 토큰(fine-grained PAT, 이 레포 Commit statuses: write)은 스토어에
+    # 들어가지 않도록 root:hydra 0440 파일에서 Include한다. 파일 형식:
+    #   constexpr-if = token <PAT>
+    # 파일이 없거나 읽을 수 없으면 hydra.conf를 읽는 모든 hydra 서비스가
+    # 죽으므로 스위치 전에 프로비저닝할 것.
     extraConfig = ''
       allow_import_from_derivation = true
+
+      <github_authorization>
+        Include /etc/hydra/github-authorization.conf
+      </github_authorization>
+
+      <githubstatus>
+        jobs = nixos-configuration:(main|lock-update):.*
+        excludeBuildFromContext = 1
+        useShortContext = 1
+      </githubstatus>
     '';
   };
   # 모듈의 hydra-init이 `runuser … createdb -O hydra hydra`를 `--` 없이
