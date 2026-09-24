@@ -1,4 +1,7 @@
 { pkgs, ... }: {
+  imports = [
+    ./modules/kde
+  ];
   boot.loader = {
     efi.canTouchEfiVariables = true;
     systemd-boot.enable = true;
@@ -15,7 +18,6 @@
   # Root-needed disk tools only; everything else lives in
   # users/constexpr12/packages.nix (home-manager).
   environment.systemPackages = with pkgs; [
-    gparted
     parted
   ];
   fonts.packages = with pkgs; [
@@ -63,6 +65,14 @@
       LC_IDENTIFICATION = "ko_KR.UTF-8";
     };
   };
+  kdepackages = {
+    plasma.enable = true;
+    dolphin.enable = true;
+    okular.enable = true;
+    partition-manager.enable = true;
+    plasma-systemmonitor.enable = true;
+    spectacle.enable = true;
+  };
   networking = {
     nameservers = [
       "1.1.1.1"
@@ -91,12 +101,6 @@
     xserver = {
       enable = true;
       excludePackages = [ pkgs.xterm ];
-    };
-    desktopManager.plasma6.enable = true;
-    displayManager.defaultSession = "plasma";
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
     };
     pipewire = {
       enable = true;

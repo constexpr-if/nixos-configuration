@@ -31,7 +31,6 @@ in
   ghidra
   gmsh
   gnupg
-  gparted
   grim
   halloy
   inetutils
@@ -40,8 +39,16 @@ in
   jetbrains.idea
   jetbrains.rust-rover
   jq
-  kdePackages.dolphin-plugins
+  kdePackages.ark
+  kdePackages.elisa
+  kdePackages.gwenview
+  kdePackages.isoimagewriter
+  kdePackages.kate
+  kdePackages.kcalc
+  kdePackages.kclock
   kdePackages.kdenlive
+  kdePackages.kolourpaint
+  kdePackages.ktorrent
   kitty
   krita
   libreoffice-qt
