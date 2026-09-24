@@ -64,6 +64,17 @@ in
   # session becomes unrecoverable once locked.
   security.pam.services.swaylock = { };
 
+  # The plasma6 module wires pam_kwallet into "login" (TTY) and "kde"
+  # (screenlocker) only — SDDM would have brought its own. greetd is the
+  # actual login path here, so without this the login password never
+  # reaches kwalletd/ksecretd and every session starts with a wallet
+  # password prompt. Requires the wallet password to equal the login
+  # password.
+  security.pam.services.greetd.kwallet = {
+    enable = true;
+    package = pkgs.kdePackages.kwallet-pam;
+  };
+
   # Render wlroots compositors on the CPU; a console-replacement session
   # doesn't need GLES and this keeps the GPU in its low-power state.
   # Delete to switch sway back to GPU rendering.
