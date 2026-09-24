@@ -110,6 +110,18 @@ in
         example = "constdesktop.tail5b5022.ts.net";
         description = "tailnet FQDN — 인증서와 링크가 이 이름을 쓴다";
       };
+      certCommand = lib.mkOption {
+        type = lib.types.lines;
+        internal = true;
+        default = ''
+          ${pkgs.tailscale}/bin/tailscale cert \
+            --cert-file "$CERT_FILE" --key-file "$KEY_FILE" ${cfg.tls.fqdn}
+        '';
+        description = ''
+          인증서를 $CERT_FILE/$KEY_FILE에 쓰는 명령. VM 테스트가 tailscale
+          없이 자체 서명 인증서로 바꿔 끼우는 용도다.
+        '';
+      };
     };
     apps = lib.mkOption {
       default = { };
@@ -260,10 +272,8 @@ in
       };
       script = ''
         install -d -m 750 -o root -g nginx ${certDir}
-        ${pkgs.tailscale}/bin/tailscale cert \
-          --cert-file ${certDir}/cert.pem \
-          --key-file ${certDir}/key.pem \
-          ${cfg.tls.fqdn}
+        CERT_FILE=${certDir}/cert.pem KEY_FILE=${certDir}/key.pem
+        ${cfg.tls.certCommand}
         chgrp nginx ${certDir}/cert.pem ${certDir}/key.pem
         chmod 640 ${certDir}/cert.pem ${certDir}/key.pem
         # 부팅 경로(Before=nginx)에서는 nginx가 아직 inactive라 건너뛴다.
