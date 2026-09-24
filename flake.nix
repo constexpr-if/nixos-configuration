@@ -13,7 +13,10 @@
   outputs =
     { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ ./flake/nixosConfigurations.nix ];
+      imports = [
+        ./flake/nixosConfigurations.nix
+        ./flake/checks.nix
+      ];
     };
 
   nixConfig = {

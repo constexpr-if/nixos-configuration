@@ -25,7 +25,8 @@
       ];
     }
   ];
-  programs.ssh.knownHosts."constdesktop".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxHF3hLZP1qYgBEvardRDS0xtLgNwXX1Dmqd1/YKRYI";
+  programs.ssh.knownHosts."constdesktop".publicKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxHF3hLZP1qYgBEvardRDS0xtLgNwXX1Dmqd1/YKRYI";
   services.xserver.xkb.options = "korean:ralt_hangul";
   system.stateVersion = "24.05";
 }
