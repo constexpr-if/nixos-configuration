@@ -28,6 +28,7 @@ in
   gamescope
   gdb
   gettext
+  gh
   ghidra
   gmsh
   gnupg
