@@ -7,6 +7,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./binary-cache.nix
     ./hydra.nix
     ./sshd.nix
     ./trading.nix
