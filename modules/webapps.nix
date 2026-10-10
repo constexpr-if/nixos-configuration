@@ -277,8 +277,10 @@ in
         chgrp nginx ${certDir}/cert.pem ${certDir}/key.pem
         chmod 640 ${certDir}/cert.pem ${certDir}/key.pem
         # 부팅 경로(Before=nginx)에서는 nginx가 아직 inactive라 건너뛴다.
+        # --no-block 필수: reload 잡은 Before=nginx 순서 때문에 이 유닛의
+        # start 잡이 끝나길 기다리므로, 동기 호출하면 서로를 기다려 멈춘다.
         if ${pkgs.systemd}/bin/systemctl is-active --quiet nginx; then
-          ${pkgs.systemd}/bin/systemctl reload nginx
+          ${pkgs.systemd}/bin/systemctl reload --no-block nginx
         fi
       '';
     };
