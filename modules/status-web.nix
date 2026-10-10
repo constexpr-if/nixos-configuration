@@ -52,6 +52,37 @@ let
         'NR==2{printf "RAM      %.1f/%.0fGi (free %.0fGi)\n", $3/2^30, $2/2^30, $7/2^30}'
       ${pkgs.coreutils}/bin/df -h --output=target,pcent,avail / /home /nix/store | \
         ${pkgs.gawk}/bin/awk 'NR>1{printf "%-10s %4s (%s free)\n", $1, $2, $3}'
+      # Traffic per linked interface: average rate since the previous run
+      # (counters kept in net.prev) plus totals since boot. A gap over 5min
+      # (hibernate, stopped timer) or a counter reset shows n/a rather than
+      # a misleading average.
+      now=$(date +%s)
+      prev=${stateDir}/net.prev
+      [ -f "$prev" ] || : > "$prev"
+      cur=""
+      for d in /sys/class/net/*; do
+        i=$(basename "$d")
+        [ "$i" = lo ] && continue
+        [ "$(cat "$d/carrier" 2>/dev/null || echo 0)" = 1 ] || continue
+        cur="$cur$i $(cat "$d/statistics/rx_bytes") $(cat "$d/statistics/tx_bytes") $now"$'\n'
+      done
+      printf '%s' "$cur" | ${pkgs.gawk}/bin/awk -v pf="$prev" '
+        function h(b,  u, i) {
+          split("B K M G T", u, " "); i = 1
+          while (b >= 1024 && i < 5) { b /= 1024; i++ }
+          return sprintf(i == 1 ? "%.0f%s" : "%.1f%s", b, u[i])
+        }
+        FILENAME == pf { pr[$1] = $2; pt[$1] = $3; pts[$1] = $4; next }
+        NF == 4 {
+          dt = $4 - pts[$1]
+          if (($1 in pr) && dt > 0 && dt <= 300 && $2 >= pr[$1] && $3 >= pt[$1])
+            rate = sprintf("↓%s/s ↑%s/s", h(($2 - pr[$1]) / dt), h(($3 - pt[$1]) / dt))
+          else
+            rate = "n/a"
+          printf "%-10s %s\n", $1, rate
+          printf "           total ↓%s ↑%s\n", h($2), h($3)
+        }' "$prev" -
+      printf '%s' "$cur" > "$prev"
       echo '</pre></body></html>'
     } > ${stateDir}/site/index.html.tmp
     mv ${stateDir}/site/index.html.tmp ${stateDir}/site/index.html
@@ -62,7 +93,7 @@ in
   webapps.apps.status = {
     title = "Status";
     port = 8434;
-    description = "전력 · 부하 · 디스크 · SSH 대시보드";
+    description = "전력 · 부하 · 디스크 · 네트워크 · SSH 대시보드";
     root = "${stateDir}/site";
   };
 
