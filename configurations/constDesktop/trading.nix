@@ -31,6 +31,9 @@
       market = "vts";
       listenAddress = "100.74.26.112";
       port = 8444;
+      # 세션 대리 모드 (3단계): 모의투자 키는 이 파일에만 존재한다.
+      # 파일이 없으면 유닛이 재시작 루프를 돌므로, 스위치 전에 프로비저닝할 것.
+      credentialsFile = "/etc/kis-broker/vts.env";
     };
   };
 }
