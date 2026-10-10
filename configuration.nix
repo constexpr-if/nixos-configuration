@@ -101,6 +101,10 @@
     xserver = {
       enable = true;
       excludePackages = [ pkgs.xterm ];
+      xkb = {
+        layout = "us";
+        options = "korean:ralt_hangul";
+      };
     };
     pipewire = {
       enable = true;
