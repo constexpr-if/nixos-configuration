@@ -11,7 +11,6 @@ let
     inputs.nixpkgs.lib.nixosSystem {
       modules = [
         hmModule
-        inputs.kis-broker.nixosModules.default
         (self + "/configuration.nix")
         hostconf
         # claude-code는 stable 브랜치에 버전 범프가 백포트되지 않아

@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   services.hydra = {
     enable = true;
@@ -10,9 +10,6 @@
     notificationSender = "hydra@constdesktop";
     # 없으면 cache.nixos.org에 이미 있는 것까지 전부 로컬 빌드한다.
     useSubstitutes = true;
-    # Haskell flake(kis-broker 등)의 callCabal2nix는 IFD라서 평가기
-    # 기본값(IFD 금지)에서는 평가가 실패한다. 자기 레포만 돌리는 CI라 허용.
-    #
     # githubstatus: 빌드 상태를 GitHub 커밋 status로 보낸다. lock-update의
     # status가 main ruleset의 필수 체크 + 봇 PR auto-merge의 근거가 된다.
     # context는 빌드 ID를 빼서 고정해야 필수 체크로 지정할 수 있다
@@ -23,8 +20,6 @@
     # 파일이 없거나 읽을 수 없으면 hydra.conf를 읽는 모든 hydra 서비스가
     # 죽으므로 스위치 전에 프로비저닝할 것.
     extraConfig = ''
-      allow_import_from_derivation = true
-
       <github_authorization>
         Include /etc/hydra/github-authorization.conf
       </github_authorization>
@@ -41,6 +36,8 @@
   # 같은 스크립트의 psql 호출엔 `--`가 있다). DB/유저를 ensure*로 만들고
   # 마커 파일을 미리 둬서 고장난 분기를 통째로 건너뛴다.
   services.postgresql = {
+    # 지정하지 않으면 stateVersion(23.11) 기준 기본값인 PG15가 된다.
+    package = pkgs.postgresql_18;
     ensureUsers = [
       {
         name = "hydra";

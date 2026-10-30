@@ -10,7 +10,6 @@
     ./binary-cache.nix
     ./hydra.nix
     ./sshd.nix
-    ./trading.nix
     ../../modules/greetd-sway.nix
     ../../modules/status-web.nix
     ../../modules/webapps.nix

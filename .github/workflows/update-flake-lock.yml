@@ -9,8 +9,6 @@ permissions:
   contents: write
   pull-requests: write
 
-# kis-broker는 실거래 인프라라 봇이 올리지 않는다 — 코드를 검토하고
-# `nix flake update kis-broker`로 직접 올릴 것.
 env:
   INPUTS: nixpkgs nixpkgs-unstable home-manager flake-parts
   HOSTS: constDesktop constLaptopTUF
@@ -46,8 +44,6 @@ jobs:
           {
             echo "\`nix flake update $INPUTS\` 자동 실행 결과입니다."
             echo "양 호스트 toplevel 평가를 통과했습니다. 머지 전 Hydra lock-update 빌드(필수 체크)를 확인하세요."
-            echo
-            echo "kis-broker는 이 PR에서 갱신하지 않습니다."
             for h in $HOSTS; do
               echo
               echo "### $h"
@@ -71,7 +67,7 @@ jobs:
           commit-message: |
             flake 입력 업데이트
 
-            update-flake-lock 워크플로 자동 갱신 (kis-broker 제외).
+            update-flake-lock 워크플로 자동 갱신.
             양 호스트 toplevel 평가 통과.
           body-path: ${{ runner.temp }}/body.md
           labels: dependencies
