@@ -25,7 +25,7 @@
       ];
     }
   ];
-  # Pull what Hydra already built on the desktop (unfree apps, host-local
+  # Pull what the desktop already built (unfree apps, host-local
   # config) straight from its harmonia cache instead of routing each
   # missing path through the remote builder. priority=50 keeps it behind
   # cache.nixos.org (40), so ordinary nixpkgs lookups don't pay the extra

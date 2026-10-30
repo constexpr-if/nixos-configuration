@@ -4,7 +4,7 @@ name: update-pr-branches
 # ("Update branch" 버튼 자동화). ruleset이 up-to-date를 요구하므로 이게
 # 없으면 main 커밋마다 PR이 뒤처져 머지가 막힌다. PR 브랜치만 갱신하고
 # main에는 손대지 않는다 — 머지 판단은 여전히 사람, 병합 결과의 검증은
-# Hydra가 다시 빌드해 status로 보고한다.
+# check 워크플로가 다시 평가해 보고한다.
 
 on:
   push:
