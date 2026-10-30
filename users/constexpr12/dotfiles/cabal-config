@@ -1,0 +1,13 @@
+repository hackage.haskell.org
+  url: http://hackage.haskell.org/
+remote-repo-cache: /home/constexpr12/.cache/cabal/packages
+build-summary: /home/constexpr12/.cache/cabal/logs/build.log
+remote-build-reporting: none
+jobs: $ncpus
+installdir: /home/constexpr12/.local/bin
+haddock
+init
+install-dirs user
+install-dirs global
+program-locations
+program-default-options
