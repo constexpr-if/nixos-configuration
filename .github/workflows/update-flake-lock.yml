@@ -43,7 +43,7 @@ jobs:
           body="$RUNNER_TEMP/body.md"
           {
             echo "\`nix flake update $INPUTS\` 자동 실행 결과입니다."
-            echo "양 호스트 toplevel 평가를 통과했습니다. 머지 전 Hydra lock-update 빌드(필수 체크)를 확인하세요."
+            echo "양 호스트 toplevel 평가를 통과했습니다. 실제 빌드는 검증되지 않았으니 머지 전 로컬에서 빌드해 확인하세요."
             for h in $HOSTS; do
               echo
               echo "### $h"

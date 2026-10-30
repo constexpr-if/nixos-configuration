@@ -8,7 +8,6 @@
   imports = [
     ./hardware-configuration.nix
     ./binary-cache.nix
-    ./hydra.nix
     ./sshd.nix
     ../../modules/greetd-sway.nix
     ../../modules/status-web.nix
