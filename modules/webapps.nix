@@ -11,7 +11,7 @@
 #  - `upstream`(리버스 프록시) 또는 `root`(정적 루트)를 주면 해당 포트에
 #    nginx vhost가 생긴다. 둘 다 없으면 링크만 만든다.
 #
-# 앱 코드 자체는 이 repo에 두지 않는다. kis-broker처럼 앱마다 자체
+# 앱 코드 자체는 이 repo에 두지 않는다. 앱마다 자체
 # flake(패키지 + NixOS 모듈)를 가진 저장소를 만들고 시스템 flake의
 # input으로 끌어온 뒤, 그 모듈이 systemd 유닛과 webapps 등록을 함께
 # 정의하는 것이 규약이다.

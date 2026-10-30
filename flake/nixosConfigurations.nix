@@ -11,7 +11,6 @@ let
     inputs.nixpkgs.lib.nixosSystem {
       modules = [
         hmModule
-        inputs.kis-broker.nixosModules.default
         (self + "/configuration.nix")
         hostconf
         # claude-code는 stable 브랜치에 버전 범프가 백포트되지 않아
@@ -36,10 +35,5 @@ in
   flake.nixosConfigurations = {
     constDesktop = nixosSystem (self + "/configurations/constDesktop");
     constLaptopTUF = nixosSystem (self + "/configurations/constLaptopTUF");
-  };
-  flake.hydraJobs = {
-    constDesktop = self.nixosConfigurations.constDesktop.config.system.build.toplevel;
-    constLaptopTUF = self.nixosConfigurations.constLaptopTUF.config.system.build.toplevel;
-    webapps-test = self.checks.x86_64-linux.webapps;
   };
 }
