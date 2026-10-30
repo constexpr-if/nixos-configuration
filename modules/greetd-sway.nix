@@ -11,9 +11,9 @@
 # "console" is sway + a terminal + fcitx5 (input-method-v2/text-input-v3;
 # same daemon and config as the Plasma session).
 #
-# sway configuration is deliberately not managed here — it reads the
-# user's own ~/.config/sway/config (falling back to the stock
-# /etc/sway/config). For hangul input, the config needs `exec fcitx5 -d`.
+# sway configuration is not managed here (system level) — the user's
+# ~/.config/sway/config comes from home-manager (constDesktop's
+# sway-config). For hangul input, that config needs `exec fcitx5 -d`.
 #
 # greetd+tuigreet replaces SDDM as the login path: tty1 runs it at boot via
 # the greetd module (which aliases itself to display-manager.service), and

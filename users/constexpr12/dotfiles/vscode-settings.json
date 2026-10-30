@@ -1,0 +1,40 @@
+{
+    "editor.formatOnSave": true,
+    "editor.fontFamily": "'Iosevka Nerd Font', 'Liberation Mono', monospace",
+    "editor.fontLigatures": true,
+    "terminal.integrated.initialHint": false,
+    "workbench.browser.enableChatTools": false,
+    "workbench.settings.alwaysShowAdvancedSettings": true,
+    "files.trimTrailingWhitespace": true,
+    "explorer.confirmDragAndDrop": false,
+    "claudeCode.preferredLocation": "panel",
+    "workbench.activityBar.location": "bottom",
+    "workbench.browser.showInTitleBar": false,
+    "vsrocq-language-server.trace.server": "compact",
+    "vsrocq.proof.workers": 24,
+    "vsrocq.completion.enable": true,
+    "vsrocq.diagnostics.full": true,
+    "[rocq]": {},
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "latex-input.mappings": [
+        "default-mappings.json"
+    ],
+    "ocaml.commands.typedHoles.constructAfterNavigate": true,
+    "ocaml.commands.typeSelection.alwaysClearOutputChannel": true,
+    "haskell.manageHLS": "PATH",
+    "editor.unicodeHighlight.allowedCharacters": {
+        "×": true,
+        "∨": true
+    },
+    "git.autofetch": true,
+    "claudeCode.hideOnboarding": true,
+    "chat.viewSessions.orientation": "stacked",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "rocq": false
+    },
+    "workbench.colorTheme": "Dark+"
+}

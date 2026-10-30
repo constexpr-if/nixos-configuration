@@ -148,6 +148,7 @@
       firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
       zsh.dotDir = "${config.xdg.configHome}/zsh";
     };
+    xdg.configFile."sway/config".source = ./sway-config;
     # Remote Control host: lets claude.ai/code and the mobile app open
     # sessions on this box (new sessions spawn in $HOME). Linger is on for
     # this user, so it comes up at boot with no login.
