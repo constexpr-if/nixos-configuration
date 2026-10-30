@@ -1,0 +1,6 @@
+[
+    {
+        "key": "ctrl+shift+meta+i",
+        "command": "editor.action.formatDocument.multiple"
+    }
+]

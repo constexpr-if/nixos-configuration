@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   imports = [ ./claude.nix ];
   dconf = {
     settings = {
@@ -36,6 +36,7 @@
         };
         safe.directory = "/etc/nixos";
       };
+      ignores = [ "**/.claude/settings.local.json" ];
     };
     home-manager = {
       enable = true;
@@ -65,8 +66,17 @@
       withRuby = true;
       withPython3 = true;
     };
+    # 확장은 선언하지 않는다 — nixpkgs판이 마켓플레이스보다 뒤처져
+    # (vsrocq, claude-code 등) 선언하면 오히려 내려간다. 확장은
+    # ~/.vscode/extensions에서 VS Code가 직접 관리한다.
+    # 설정은 읽기 전용 링크라 설정 UI에서 바꾼 값은 저장되지 않는다 —
+    # dotfiles/vscode-settings.json을 고칠 것.
     vscode = {
       enable = true;
+      profiles.default = {
+        userSettings = lib.importJSON ./dotfiles/vscode-settings.json;
+        keybindings = lib.importJSON ./dotfiles/vscode-keybindings.json;
+      };
     };
     zsh =
       let
@@ -84,7 +94,8 @@
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
         initContent = ''
-          source ~/.p10k.zsh
+          POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+          source ${./dotfiles/p10k.zsh}
           alias ls="ls --color=auto"
         '';
         zplug = {
@@ -105,5 +116,10 @@
       configHome = "${HOME}/.config";
       dataHome = "${HOME}/.local/share";
       stateHome = "${HOME}/.local/state";
+      configFile = {
+        "cabal/config".source = ./dotfiles/cabal-config;
+        "kitty/kitty.conf".source = ./dotfiles/kitty.conf;
+        "zellij/config.kdl".source = ./dotfiles/zellij.kdl;
+      };
     };
 }
