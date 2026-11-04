@@ -121,5 +121,13 @@
         "kitty/kitty.conf".source = ./dotfiles/kitty.conf;
         "zellij/config.kdl".source = ./dotfiles/zellij.kdl;
       };
+      # 로케일(ko_KR)과 무관하게 ~/Desktop, ~/Documents 등 영어 기본값으로
+      # 고정한다. user-dirs.conf에 enabled=False가 들어가 xdg-user-dirs-update가
+      # 한글 이름으로 바꾸지 못한다.
+      userDirs = {
+        enable = true;
+        createDirectories = true;
+        setSessionVariables = false;
+      };
     };
 }
