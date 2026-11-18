@@ -7,8 +7,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./binary-cache.nix
     ./sshd.nix
+    ../../modules/binary-cache.nix
     ../../modules/greetd-sway.nix
     ../../modules/status-web.nix
     ../../modules/webapps.nix
