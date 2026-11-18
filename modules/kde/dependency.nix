@@ -20,6 +20,11 @@ rec {
     package = null;
   };
 
+  ark = {
+    name = "ark";
+    depends = [ ];
+    package = kdePackages.ark;
+  };
   baloo-widgets = {
     name = "baloo-widgets";
     depends = [ ];
@@ -40,15 +45,60 @@ rec {
     depends = [ ];
     package = kdePackages.dolphin-plugins;
   };
+  elisa = {
+    name = "elisa";
+    depends = [ ];
+    package = kdePackages.elisa;
+  };
   ffmpegthumbs = {
     name = "ffmpegthumbs";
     depends = [ ];
     package = kdePackages.ffmpegthumbs;
   };
+  gwenview = {
+    name = "gwenview";
+    depends = [ ];
+    package = kdePackages.gwenview;
+  };
+  isoimagewriter = {
+    name = "isoimagewriter";
+    depends = [ ];
+    package = kdePackages.isoimagewriter;
+  };
+  kate = {
+    name = "kate";
+    depends = [ ];
+    package = kdePackages.kate;
+  };
+  kcalc = {
+    name = "kcalc";
+    depends = [ ];
+    package = kdePackages.kcalc;
+  };
+  kclock = {
+    name = "kclock";
+    depends = [ ];
+    package = kdePackages.kclock;
+  };
+  kdenlive = {
+    name = "kdenlive";
+    depends = [ ];
+    package = kdePackages.kdenlive;
+  };
+  kolourpaint = {
+    name = "kolourpaint";
+    depends = [ ];
+    package = kdePackages.kolourpaint;
+  };
   konsole = {
     name = "konsole";
     depends = [ ];
     package = kdePackages.konsole;
+  };
+  ktorrent = {
+    name = "ktorrent";
+    depends = [ ];
+    package = kdePackages.ktorrent;
   };
   okular = {
     name = "okular";

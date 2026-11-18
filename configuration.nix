@@ -148,7 +148,17 @@
   };
   kdepackages = {
     plasma.enable = true;
+    ark.enable = true;
     dolphin.enable = true;
+    elisa.enable = true;
+    gwenview.enable = true;
+    isoimagewriter.enable = true;
+    kate.enable = true;
+    kcalc.enable = true;
+    kclock.enable = true;
+    kdenlive.enable = true;
+    kolourpaint.enable = true;
+    ktorrent.enable = true;
     okular.enable = true;
     partition-manager.enable = true;
     plasma-systemmonitor.enable = true;
