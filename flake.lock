@@ -134,7 +134,28 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nur": "nur"
+        "nur": "nur",
+        "status-web": "status-web"
+      }
+    },
+    "status-web": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794967513,
+        "narHash": "sha256-f0ng+2j2RjeFCjCfQj04dVHmheCtCIagIVvctFX3OJk=",
+        "owner": "Icicle-Nix",
+        "repo": "status-web",
+        "rev": "da293b4f0b78124a88925a8d538039a6e30338a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Icicle-Nix",
+        "repo": "status-web",
+        "type": "github"
       }
     }
   },

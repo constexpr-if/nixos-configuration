@@ -25,7 +25,9 @@ let
   cfg = config.webapps;
 
   portalApps = lib.filterAttrs (_: app: app.portal) cfg.apps;
-  servedApps = lib.filterAttrs (_: app: app.upstream != null || app.root != null) cfg.apps;
+  servedApps = lib.filterAttrs (
+    _: app: app.upstream != null || app.root != null || app.locations != { }
+  ) cfg.apps;
 
   tls = cfg.tls.enable;
   certDir = "/var/lib/webapps-certs";
@@ -166,6 +168,18 @@ in
                 default = null;
                 description = "정적 파일 루트 (upstream과 배타적)";
               };
+              locations = lib.mkOption {
+                type = lib.types.attrsOf lib.types.anything;
+                default = { };
+                example = lib.literalExpression ''
+                  { "= /status.json".root = "/var/lib/status-web"; }
+                '';
+                description = ''
+                  vhost에 덧붙일 nginx location
+                  (services.nginx.virtualHosts.<name>.locations 형식).
+                  정적 프론트엔드(root) 옆에 런타임 데이터 경로를 붙이는 용도.
+                '';
+              };
               portal = lib.mkOption {
                 type = lib.types.bool;
                 default = true;
@@ -223,12 +237,13 @@ in
       }
       // lib.mapAttrs' (
         name: app:
-        lib.nameValuePair "webapps-${name}" (
-          {
+        lib.nameValuePair "webapps-${name}" (lib.mkMerge [
+          ({
             listen = listenOn app.port;
+            locations = app.locations;
           }
-          // sslFiles
-          // lib.optionalAttrs (app.upstream != null) {
+          // sslFiles)
+          (lib.optionalAttrs (app.upstream != null) {
             locations."/" = {
               proxyPass = app.upstream;
               proxyWebsockets = true;
@@ -246,9 +261,19 @@ in
                 proxy_set_header X-Forwarded-Host $host:$server_port;
               '';
             };
-          }
-          // lib.optionalAttrs (app.root != null) { root = app.root; }
-        )
+          })
+          (lib.optionalAttrs (app.root != null) {
+            root = app.root;
+            # 스토어 경로는 mtime이 1970으로 고정이라 내용이 바뀌어도
+            # Last-Modified·ETag가 같다 — 세대 전환 후에도 브라우저가 304로
+            # 옛 파일을 쓴다. 검증자를 끄고 매번 새로 받게 한다(정적 파일은 작다).
+            extraConfig = ''
+              etag off;
+              if_modified_since off;
+              add_header Cache-Control "no-cache";
+            '';
+          })
+        ])
       ) servedApps;
     };
 

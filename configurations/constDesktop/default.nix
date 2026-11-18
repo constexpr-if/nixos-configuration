@@ -10,7 +10,7 @@
     ./sshd.nix
     ../../modules/binary-cache.nix
     ../../modules/greetd-sway.nix
-    ../../modules/status-web.nix
+    ../../modules/status-web
     ../../modules/webapps.nix
   ];
   # 관리 콘솔에서 HTTPS Certificates를 켜야 발급된다 (DNS 탭).

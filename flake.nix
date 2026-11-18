@@ -5,9 +5,11 @@
     nur.url = "github:nix-community/NUR";
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    status-web.url = "github:Icicle-Nix/status-web";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.inputs.nixpkgs.follows = "nixpkgs";
+    status-web.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
