@@ -57,6 +57,7 @@ in
   obs-studio
   parted
   prismlauncher
+  proton-vpn
   python3
   pythonPackages.httpserver
   pythonPackages.uploadserver
