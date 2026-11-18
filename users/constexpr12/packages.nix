@@ -52,7 +52,10 @@ in
   nixd
   nixfmt
   nmap
-  nur.repos.herver.ibkr-desktop
+  # 둘 다 install4j 산출물(.install4j/, 번들 jre/)을 $out 최상위에 둬서
+  # 프로필 병합 시 충돌한다. 런처는 각자 자기 store 경로를 쓰므로 어느 쪽이
+  # 이겨도 무관 — bin/, share/는 겹치지 않는다.
+  (lib.hiPrio nur.repos.herver.ibkr-desktop)
   nur.repos.herver.ibkr-gateway
   obs-studio
   parted
