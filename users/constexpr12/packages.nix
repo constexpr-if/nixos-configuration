@@ -52,6 +52,8 @@ in
   nixd
   nixfmt
   nmap
+  nur.repos.herver.ibkr-desktop
+  nur.repos.herver.ibkr-gateway
   obs-studio
   parted
   prismlauncher

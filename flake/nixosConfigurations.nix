@@ -21,6 +21,8 @@ let
         # 기본 config(allowUnfree=false)의 legacyPackages로는 평가가 죽는다.
         {
           nixpkgs.overlays = [
+            # pkgs.nur.repos.<owner>.<pkg>
+            inputs.nur.overlays.default
             (final: prev: {
               claude-code =
                 (import inputs.nixpkgs-unstable {
