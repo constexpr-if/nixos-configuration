@@ -2,10 +2,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nur.url = "github:nix-community/NUR";
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
