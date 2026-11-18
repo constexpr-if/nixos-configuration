@@ -135,7 +135,28 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
+        "status-api": "status-api",
         "status-web": "status-web"
+      }
+    },
+    "status-api": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794969079,
+        "narHash": "sha256-CMAIftI12ZUUkuts4BnjMm0eUIH6p3RFAOKcda4xt6c=",
+        "owner": "Icicle-Nix",
+        "repo": "status-api",
+        "rev": "4dc8c3ad848908b1bcdcb77c242d3726f36774b0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Icicle-Nix",
+        "repo": "status-api",
+        "type": "github"
       }
     },
     "status-web": {
@@ -145,11 +166,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794967513,
-        "narHash": "sha256-f0ng+2j2RjeFCjCfQj04dVHmheCtCIagIVvctFX3OJk=",
+        "lastModified": 1794969116,
+        "narHash": "sha256-WdRDqas9D06qR43DQDs2MQq8d8WvNQ6JaIgPraOhd4g=",
         "owner": "Icicle-Nix",
         "repo": "status-web",
-        "rev": "da293b4f0b78124a88925a8d538039a6e30338a6",
+        "rev": "4908de2620f47965a123d408ba9e2efa4fe3c7f2",
         "type": "github"
       },
       "original": {

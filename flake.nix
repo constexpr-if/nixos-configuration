@@ -6,10 +6,12 @@
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     status-web.url = "github:Icicle-Nix/status-web";
+    status-api.url = "github:Icicle-Nix/status-api";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.inputs.nixpkgs.follows = "nixpkgs";
     status-web.inputs.nixpkgs.follows = "nixpkgs";
+    status-api.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
